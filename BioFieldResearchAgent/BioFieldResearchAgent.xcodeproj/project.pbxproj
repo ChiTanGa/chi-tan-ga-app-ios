@@ -1,0 +1,621 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */; };
+		7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984C2DA7FC1400A46531 /* ContentView.swift */; };
+		7EA8984F2DA7FC1500A46531 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8984E2DA7FC1500A46531 /* Assets.xcassets */; };
+		7EA898532DA7FC1500A46531 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA898522DA7FC1500A46531 /* Preview Assets.xcassets */; };
+		7EA8985D2DA7FC1600A46531 /* BioFieldResearchAgentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8985C2DA7FC1600A46531 /* BioFieldResearchAgentTests.swift */; };
+		7EA898672DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */; };
+		7EA898692DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */; };
+		7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7EA898592DA7FC1600A46531 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EA8983F2DA7FC1400A46531 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7EA898462DA7FC1400A46531;
+			remoteInfo = BioFieldResearchAgent;
+		};
+		7EA898632DA7FC1600A46531 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EA8983F2DA7FC1400A46531 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7EA898462DA7FC1400A46531;
+			remoteInfo = BioFieldResearchAgent;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7EA898472DA7FC1400A46531 /* BioFieldResearchAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BioFieldResearchAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentApp.swift; sourceTree = "<group>"; };
+		7EA8984C2DA7FC1400A46531 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7EA8984E2DA7FC1500A46531 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7EA898502DA7FC1500A46531 /* BioFieldResearchAgent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BioFieldResearchAgent.entitlements; sourceTree = "<group>"; };
+		7EA898522DA7FC1500A46531 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7EA898582DA7FC1600A46531 /* BioFieldResearchAgentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BioFieldResearchAgentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EA8985C2DA7FC1600A46531 /* BioFieldResearchAgentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentTests.swift; sourceTree = "<group>"; };
+		7EA898622DA7FC1600A46531 /* BioFieldResearchAgentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BioFieldResearchAgentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITests.swift; sourceTree = "<group>"; };
+		7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltageHeatmapView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7EA898442DA7FC1400A46531 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA898552DA7FC1600A46531 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA8985F2DA7FC1600A46531 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7EA8983E2DA7FC1400A46531 = {
+			isa = PBXGroup;
+			children = (
+				7EA898492DA7FC1400A46531 /* BioFieldResearchAgent */,
+				7EA8985B2DA7FC1600A46531 /* BioFieldResearchAgentTests */,
+				7EA898652DA7FC1600A46531 /* BioFieldResearchAgentUITests */,
+				7EA898482DA7FC1400A46531 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7EA898482DA7FC1400A46531 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7EA898472DA7FC1400A46531 /* BioFieldResearchAgent.app */,
+				7EA898582DA7FC1600A46531 /* BioFieldResearchAgentTests.xctest */,
+				7EA898622DA7FC1600A46531 /* BioFieldResearchAgentUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7EA898492DA7FC1400A46531 /* BioFieldResearchAgent */ = {
+			isa = PBXGroup;
+			children = (
+				7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */,
+				7EA8984C2DA7FC1400A46531 /* ContentView.swift */,
+				7EA8984E2DA7FC1500A46531 /* Assets.xcassets */,
+				7EA898502DA7FC1500A46531 /* BioFieldResearchAgent.entitlements */,
+				7EA898512DA7FC1500A46531 /* Preview Content */,
+				7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */,
+			);
+			path = BioFieldResearchAgent;
+			sourceTree = "<group>";
+		};
+		7EA898512DA7FC1500A46531 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				7EA898522DA7FC1500A46531 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7EA8985B2DA7FC1600A46531 /* BioFieldResearchAgentTests */ = {
+			isa = PBXGroup;
+			children = (
+				7EA8985C2DA7FC1600A46531 /* BioFieldResearchAgentTests.swift */,
+			);
+			path = BioFieldResearchAgentTests;
+			sourceTree = "<group>";
+		};
+		7EA898652DA7FC1600A46531 /* BioFieldResearchAgentUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */,
+				7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */,
+			);
+			path = BioFieldResearchAgentUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7EA898462DA7FC1400A46531 /* BioFieldResearchAgent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EA8986C2DA7FC1600A46531 /* Build configuration list for PBXNativeTarget "BioFieldResearchAgent" */;
+			buildPhases = (
+				7EA898432DA7FC1400A46531 /* Sources */,
+				7EA898442DA7FC1400A46531 /* Frameworks */,
+				7EA898452DA7FC1400A46531 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BioFieldResearchAgent;
+			productName = BioFieldResearchAgent;
+			productReference = 7EA898472DA7FC1400A46531 /* BioFieldResearchAgent.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7EA898572DA7FC1600A46531 /* BioFieldResearchAgentTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EA8986F2DA7FC1600A46531 /* Build configuration list for PBXNativeTarget "BioFieldResearchAgentTests" */;
+			buildPhases = (
+				7EA898542DA7FC1600A46531 /* Sources */,
+				7EA898552DA7FC1600A46531 /* Frameworks */,
+				7EA898562DA7FC1600A46531 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7EA8985A2DA7FC1600A46531 /* PBXTargetDependency */,
+			);
+			name = BioFieldResearchAgentTests;
+			productName = BioFieldResearchAgentTests;
+			productReference = 7EA898582DA7FC1600A46531 /* BioFieldResearchAgentTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7EA898612DA7FC1600A46531 /* BioFieldResearchAgentUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EA898722DA7FC1600A46531 /* Build configuration list for PBXNativeTarget "BioFieldResearchAgentUITests" */;
+			buildPhases = (
+				7EA8985E2DA7FC1600A46531 /* Sources */,
+				7EA8985F2DA7FC1600A46531 /* Frameworks */,
+				7EA898602DA7FC1600A46531 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7EA898642DA7FC1600A46531 /* PBXTargetDependency */,
+			);
+			name = BioFieldResearchAgentUITests;
+			productName = BioFieldResearchAgentUITests;
+			productReference = 7EA898622DA7FC1600A46531 /* BioFieldResearchAgentUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7EA8983F2DA7FC1400A46531 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					7EA898462DA7FC1400A46531 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					7EA898572DA7FC1600A46531 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 7EA898462DA7FC1400A46531;
+					};
+					7EA898612DA7FC1600A46531 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 7EA898462DA7FC1400A46531;
+					};
+				};
+			};
+			buildConfigurationList = 7EA898422DA7FC1400A46531 /* Build configuration list for PBXProject "BioFieldResearchAgent" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7EA8983E2DA7FC1400A46531;
+			productRefGroup = 7EA898482DA7FC1400A46531 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7EA898462DA7FC1400A46531 /* BioFieldResearchAgent */,
+				7EA898572DA7FC1600A46531 /* BioFieldResearchAgentTests */,
+				7EA898612DA7FC1600A46531 /* BioFieldResearchAgentUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7EA898452DA7FC1400A46531 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EA898532DA7FC1500A46531 /* Preview Assets.xcassets in Resources */,
+				7EA8984F2DA7FC1500A46531 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA898562DA7FC1600A46531 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA898602DA7FC1600A46531 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7EA898432DA7FC1400A46531 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */,
+				7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */,
+				7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA898542DA7FC1600A46531 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EA8985D2DA7FC1600A46531 /* BioFieldResearchAgentTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA8985E2DA7FC1600A46531 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EA898672DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift in Sources */,
+				7EA898692DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7EA8985A2DA7FC1600A46531 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7EA898462DA7FC1400A46531 /* BioFieldResearchAgent */;
+			targetProxy = 7EA898592DA7FC1600A46531 /* PBXContainerItemProxy */;
+		};
+		7EA898642DA7FC1600A46531 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7EA898462DA7FC1400A46531 /* BioFieldResearchAgent */;
+			targetProxy = 7EA898632DA7FC1600A46531 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		7EA8986A2DA7FC1600A46531 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7EA8986B2DA7FC1600A46531 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		7EA8986D2DA7FC1600A46531 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BioFieldResearchAgent/BioFieldResearchAgent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BioFieldResearchAgent/Preview Content\"";
+				DEVELOPMENT_TEAM = 6LABHU96P7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7EA8986E2DA7FC1600A46531 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BioFieldResearchAgent/BioFieldResearchAgent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BioFieldResearchAgent/Preview Content\"";
+				DEVELOPMENT_TEAM = 6LABHU96P7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7EA898702DA7FC1600A46531 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LABHU96P7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BioFieldResearchAgent.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BioFieldResearchAgent";
+			};
+			name = Debug;
+		};
+		7EA898712DA7FC1600A46531 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LABHU96P7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BioFieldResearchAgent.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BioFieldResearchAgent";
+			};
+			name = Release;
+		};
+		7EA898732DA7FC1600A46531 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LABHU96P7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgentUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BioFieldResearchAgent;
+			};
+			name = Debug;
+		};
+		7EA898742DA7FC1600A46531 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LABHU96P7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgentUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BioFieldResearchAgent;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7EA898422DA7FC1400A46531 /* Build configuration list for PBXProject "BioFieldResearchAgent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EA8986A2DA7FC1600A46531 /* Debug */,
+				7EA8986B2DA7FC1600A46531 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7EA8986C2DA7FC1600A46531 /* Build configuration list for PBXNativeTarget "BioFieldResearchAgent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EA8986D2DA7FC1600A46531 /* Debug */,
+				7EA8986E2DA7FC1600A46531 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7EA8986F2DA7FC1600A46531 /* Build configuration list for PBXNativeTarget "BioFieldResearchAgentTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EA898702DA7FC1600A46531 /* Debug */,
+				7EA898712DA7FC1600A46531 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7EA898722DA7FC1600A46531 /* Build configuration list for PBXNativeTarget "BioFieldResearchAgentUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EA898732DA7FC1600A46531 /* Debug */,
+				7EA898742DA7FC1600A46531 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7EA8983F2DA7FC1400A46531 /* Project object */;
+}
