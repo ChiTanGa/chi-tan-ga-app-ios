@@ -15,6 +15,8 @@ struct ElectricFieldView: View {
             let center = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
             let radius = min(geometry.size.width, geometry.size.height) / 2 * 0.8
 
+            let sensorData = precalculateSensorData(center: center, radius: radius) // Pre-calculate
+
             ZStack {
                 Circle()
                     .stroke(Color.gray, lineWidth: 2)
@@ -22,25 +24,19 @@ struct ElectricFieldView: View {
                     .position(center)
 
                 ForEach(0..<8) { index in
-                    let angle = Double(index) * 2 * .pi / 8
-                    let sensorPoint = CGPoint(
-                        x: center.x + radius * cos(angle),
-                        y: center.y + radius * sin(angle)
-                    )
                     Circle()
                         .fill(colorForVoltage(voltages[index]))
                         .overlay(Circle().stroke(Color.gray, lineWidth: 2))
                         .frame(width: 16, height: 16)
-                        .position(sensorPoint)
+                        .position(sensorData.sensorPoints[index])
                 }
 
                 Canvas { context, size in
                     for x in 0..<Int(size.width) {
                         for y in 0..<Int(size.height) {
                             let distanceToCenter = sqrt(pow(Double(x) - center.x, 2) + pow(Double(y) - center.y, 2))
-                            // Fill only the inner circle
                             if distanceToCenter <= radius {
-                                let voltage = idw(x: Double(x), y: Double(y), center: center, radius: radius)
+                                let voltage = idw(x: Double(x), y: Double(y), sensorData: sensorData, voltages: voltages) // Optimized IDW
                                 let color = colorForVoltage(voltage)
                                 context.fill(Path(CGRect(x: Double(x), y: Double(y), width: 1, height: 1)), with: .color(color))
                             }
@@ -58,19 +54,32 @@ struct ElectricFieldView: View {
         .padding()
     }
 
-    func idw(x: Double, y: Double, center: CGPoint, radius: Double, power: Double = 4) -> Double {
+    struct SensorData {
+        let sensorPoints: [CGPoint]
+    }
+
+    func precalculateSensorData(center: CGPoint, radius: Double) -> SensorData {
         let angles = (0..<8).map { Double($0) * 2 * .pi / 8 }
         let sensorPoints = angles.map { CGPoint(x: center.x + radius * cos($0), y: center.y + radius * sin($0)) }
+        return SensorData(sensorPoints: sensorPoints)
+    }
 
+    func idw(x: Double, y: Double, sensorData: SensorData, voltages: [Double], power: Double = 4) -> Double {
         var numerator: Double = 0
         var denominator: Double = 0
 
         for i in 0..<8 {
-            let distance = sqrt(pow(x - Double(sensorPoints[i].x), 2) + pow(y - Double(sensorPoints[i].y), 2))
-            if distance == 0 {
+            let dx = x - Double(sensorData.sensorPoints[i].x)
+            let dy = y - Double(sensorData.sensorPoints[i].y)
+            let distanceSquared = dx * dx + dy * dy
+
+            if distanceSquared == 0 {
                 return voltages[i]
             }
+
+            let distance = sqrt(distanceSquared)
             let weight = 1 / pow(distance, power)
+
             numerator += weight * voltages[i]
             denominator += weight
         }
