@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E112DF72DAA987300E349E2 /* ElectricFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E112DF62DAA986700E349E2 /* ElectricFieldView.swift */; };
 		7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */; };
 		7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984C2DA7FC1400A46531 /* ContentView.swift */; };
 		7EA8984F2DA7FC1500A46531 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8984E2DA7FC1500A46531 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7E112DF62DAA986700E349E2 /* ElectricFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectricFieldView.swift; sourceTree = "<group>"; };
 		7EA898472DA7FC1400A46531 /* BioFieldResearchAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BioFieldResearchAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentApp.swift; sourceTree = "<group>"; };
 		7EA8984C2DA7FC1400A46531 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		7EA898492DA7FC1400A46531 /* BioFieldResearchAgent */ = {
 			isa = PBXGroup;
 			children = (
+				7E112DF62DAA986700E349E2 /* ElectricFieldView.swift */,
 				7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */,
 				7EA8984C2DA7FC1400A46531 /* ContentView.swift */,
 				7EA8984E2DA7FC1500A46531 /* Assets.xcassets */,
@@ -265,6 +268,7 @@
 				7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */,
 				7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */,
 				7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */,
+				7E112DF72DAA987300E349E2 /* ElectricFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

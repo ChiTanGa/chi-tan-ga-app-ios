@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct VoltageHeatmapView: View {
-    let simGridSize = 32  // smaller grid for performance
-    let displayScale = 8  // upscale for visualization
+    let simGridSize = 128  // smaller grid for performance
+    let displayScale = 1  // upscale for visualization
 
     @State private var voltages = [Double](repeating: 0.0, count: 8)
     @State private var field: [[Double]] = []
@@ -34,7 +34,7 @@ struct VoltageHeatmapView: View {
                 // Display the voltage grid
                 for y in 0..<field.count {
                     for x in 0..<field[y].count {
-                        let v = field[y][x]
+                        let v = min(max(field[y][x], 0.0), 1.0) // Clamp between 0 and 1
                         let color = Color(hue: 1.0 - v, saturation: 1.0, brightness: 1.0)
                         context.fill(
                             Path(CGRect(x: CGFloat(x * displayScale),
@@ -130,53 +130,38 @@ struct VoltageHeatmapView: View {
         let center = size / 2
         let radius = Double(center - 1)
 
-        // Define RBF kernel function (Gaussian)
-        func rbf(x: Double, y: Double, cx: Double, cy: Double, epsilon: Double = 1.0) -> Double {
-            let distance = (x - cx) * (x - cx) + (y - cy) * (y - cy)
-            return exp(-epsilon * distance)
+        struct RBFSource {
+            let x: Double
+            let y: Double
+            let voltage: Double
         }
 
-        // Define interpolation for RBF
-        func interpolate(x: Int, y: Int) -> Double {
-            var value = 0.0
-            let epsilon: Double = 1.0  // Adjust for sensitivity of interpolation
-
-            // Calculate weighted sum of boundary voltages using RBF
-            for i in 0..<8 {
-                let angle = 2 * Double.pi * Double(i) / 8.0
-                let vx = center + Int(radius * cos(angle))
-                let vy = center + Int(radius * sin(angle))
-
-                // Apply RBF kernel (distance between grid point and boundary points)
-                let r = rbf(x:Double(x), y: Double(y), cx: Double(vx), cy: Double(vy), epsilon: epsilon)
-                value += voltages[i] * r
-            }
-            return value
+        let sources: [RBFSource] = (0..<8).map { i in
+            let angle = 2 * Double.pi * Double(i) / 8.0
+            let x = Double(center) + radius * cos(angle)
+            let y = Double(center) + radius * sin(angle)
+            return RBFSource(x: x, y: y, voltage: voltages[i])
         }
 
-        // Apply interpolation across the grid (whole grid, not just boundary points)
+        //let epsilon = 0.01 // smaller epsilon for smoother effect
+        let epsilon = 1.0 / (Double(size) * 4.0)
+
         for y in 0..<size {
             for x in 0..<size {
                 let dx = x - center
                 let dy = y - center
-                if sqrt(Double(dx * dx + dy * dy)) <= radius {  // Only interpolate inside the circle
-                    grid[y][x] = interpolate(x: x, y: y)
-                }
-            }
-        }
+                if sqrt(Double(dx * dx + dy * dy)) > radius { continue }
 
-        // Normalize values to keep them within 0..1 range
-        let minVal = grid.flatMap { $0 }.min() ?? 0
-        let maxVal = grid.flatMap { $0 }.max() ?? 1
-        let range = maxVal - minVal
-
-        for y in 0..<size {
-            for x in 0..<size {
-                if range > 0 {
-                    grid[y][x] = (grid[y][x] - minVal) / range  // Normalize to [0, 1]
-                } else {
-                    grid[y][x] = 0.0
+                var numerator = 0.0
+                var denominator = 0.0
+                for source in sources {
+                    let dist2 = pow(Double(x) - source.x, 2) + pow(Double(y) - source.y, 2)
+                    let weight = exp(-dist2 * epsilon)
+                    numerator += weight * source.voltage
+                    denominator += weight
                 }
+
+                grid[y][x] = denominator > 0 ? numerator / denominator : 0.0
             }
         }
 
