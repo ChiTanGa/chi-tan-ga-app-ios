@@ -29,7 +29,8 @@ struct ElectricFieldView: View {
                     )
                     Circle()
                         .fill(colorForVoltage(voltages[index]))
-                        .frame(width: 8, height: 8)
+                        .overlay(Circle().stroke(Color.gray, lineWidth: 2))
+                        .frame(width: 16, height: 16)
                         .position(sensorPoint)
                 }
 
@@ -37,6 +38,7 @@ struct ElectricFieldView: View {
                     for x in 0..<Int(size.width) {
                         for y in 0..<Int(size.height) {
                             let distanceToCenter = sqrt(pow(Double(x) - center.x, 2) + pow(Double(y) - center.y, 2))
+                            // Fill only the inner circle
                             if distanceToCenter <= radius {
                                 let voltage = idw(x: Double(x), y: Double(y), center: center, radius: radius)
                                 let color = colorForVoltage(voltage)
