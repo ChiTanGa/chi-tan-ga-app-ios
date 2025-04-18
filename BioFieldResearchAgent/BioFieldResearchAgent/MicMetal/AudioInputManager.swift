@@ -62,7 +62,7 @@ class AudioInputManager {
     #endif
     
     private var smoothedAmplitude: Float = 0
-    private let smoothingFactor: Float = 0.1  // tweak between 0.1 (slow) and 0.3 (responsive)
+    private let smoothingFactor: Float = 0.3  // tweak between 0.1 (slow) and 0.3 (responsive)
 
     private func computeAmplitude(buffer: AVAudioPCMBuffer) -> Float {
         guard let channelData = buffer.floatChannelData?[0] else { return 0 }

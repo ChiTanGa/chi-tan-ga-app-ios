@@ -48,17 +48,20 @@ float fbm(float2 p) {
 }
 
 fragment float4 fragment_cloud(VertexOut in [[stage_in]],
-                               constant float &time [[buffer(0)]],
-                               constant float &amplitude [[buffer(1)]]) {
+                               constant float2& u_resolution [[buffer(0)]],
+                               constant float2& u_mouse [[buffer(1)]],
+                               constant float& u_time [[buffer(2)]],
+                               constant float& u_amplitude [[buffer(3)]] // New uniform for amplitude
+) {
     float2 uv = in.uv * 3.0; // Try 2.0–4.0 for better scale
-    float2 motion = float2(time * 0.05, amplitude * 0.03); // cloud drift
+    float2 motion = float2(u_time * 0.05, u_amplitude * 0.3); // cloud drift
 
     float density = fbm(uv + motion);
 
     // Cloud sharpness: emphasize mid values
     density = pow(density, 2.0);
 
-    float brightness = mix(0.7, 1.0, amplitude); // dynamic based on mic
+    float brightness = mix(0.7, 1.0, u_amplitude); // dynamic based on mic
     float3 color = float3(density * brightness);
 
     return float4(color.r, color.g * 0.9, 1.0, 1.0); // slight blue tint
