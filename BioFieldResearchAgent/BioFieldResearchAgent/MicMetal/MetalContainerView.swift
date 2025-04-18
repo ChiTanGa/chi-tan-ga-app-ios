@@ -27,8 +27,8 @@ public typealias ViewControllerRepresentable = UIViewControllerRepresentable
 struct MetalContainerView: ViewRepresentable {
     @Binding var amplitude: Float
     
-    func makeCoordinator() -> MetalRenderer {
-        return MetalRenderer(metalView: view)
+    func makeCoordinator() -> MetalRenderer3 {
+        return MetalRenderer3(metalView: view)
     }
 #if os(macOS)
     func makeNSView(context: Context) -> MTKView {

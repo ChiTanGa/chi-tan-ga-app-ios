@@ -66,10 +66,11 @@ fragment float4 basic_fragment(
     VertexOut in [[stage_in]],
     constant float2& u_resolution [[buffer(0)]],
     constant float2& u_mouse [[buffer(1)]],
-    constant float& u_time [[buffer(2)]]
+    constant float& u_time [[buffer(2)]],
+    constant float& u_amplitude [[buffer(3)]] // New uniform for amplitude
 ) {
     float2 st = in.uv * 3.0;
-    // st += st * abs(sin(u_time * 0.1) * 3.0);
+    //st += st * abs(sin(u_time * 0.1) * 3.0);
     float3 color = float3(0.0);
 
     float2 q = float2(0.0);
@@ -93,6 +94,9 @@ fragment float4 basic_fragment(
     color = mix(color,
                 float3(0.666667, 1, 1),
                 clamp(length(r), 0.0, 1.0));
+
+    // You can now use u_amplitude here if needed, for example:
+    color *= (1.0 + u_amplitude * 0.5);
 
     return float4((f * f * f + 0.6 * f * f + 0.5 * f) * color, 1.0);
 }
