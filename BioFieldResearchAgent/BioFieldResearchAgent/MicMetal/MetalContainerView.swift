@@ -26,9 +26,10 @@ public typealias ViewControllerRepresentable = UIViewControllerRepresentable
 
 struct MetalContainerView: ViewRepresentable {
     @Binding var amplitude: Float
+    @Binding var shaderType: ShaderType
     
-    func makeCoordinator() -> MetalRenderer3 {
-        return MetalRenderer3(metalView: view)
+    func makeCoordinator() -> MetalRenderer {
+        return MetalRenderer(metalView: view)
     }
 #if os(macOS)
     func makeNSView(context: Context) -> MTKView {
@@ -43,6 +44,7 @@ struct MetalContainerView: ViewRepresentable {
 
     func updateNSView(_ uiView: MTKView, context: Context) {
         context.coordinator.amplitude = amplitude
+        context.coordinator.updateShader(to: shaderType)
     }
 
     private let view = MTKView()
@@ -59,6 +61,7 @@ struct MetalContainerView: ViewRepresentable {
 
     func updateUIView(_ uiView: MTKView, context: Context) {
         context.coordinator.amplitude = amplitude
+        context.coordinator.updateShader(to: shaderType)
     }
 
     private let view = MTKView()

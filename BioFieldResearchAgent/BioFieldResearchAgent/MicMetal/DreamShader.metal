@@ -47,10 +47,10 @@ float noise2 (float2 st) {
 
 constant int numOctaves = 5;
 
-float fbm (float2 st, constant float& time) {
+float fbm (float2 st, constant float& time, constant float& amplitude) {
     float v = 0.0;
     float a = 0.548;
-    float2 shift = float2(100.0);
+    float2 shift = float2(80.0 + 0.1 * amplitude);
     // Rotate to reduce axial bias
     float2x2 rot = float2x2(cos(0.5), sin(0.5),
                             -sin(0.700), cos(0.50));
@@ -74,14 +74,14 @@ fragment float4 basic_fragment(
     float3 color = float3(0.0);
 
     float2 q = float2(0.0);
-    q.x = fbm(st + 0.00 * u_time, u_time);
-    q.y = fbm(st + float2(1.0), u_time);
+    q.x = fbm(st + 0.00 * u_time, u_time, u_amplitude);
+    q.y = fbm(st + float2(1.0), u_time, u_amplitude);
 
     float2 r = float2(0.0);
-    r.x = fbm(st + 1.0 * q + float2(1.7, 9.2) + 0.15 * u_time, u_time);
-    r.y = fbm(st + 1.0 * q + float2(8.3, 2.8) + 0.126 * u_time, u_time);
+    r.x = fbm(st + 1.0 * q + float2(1.7, 9.2) + 0.15 * u_time, u_time, u_amplitude);
+    r.y = fbm(st + 1.0 * q + float2(8.3, 2.8) + 0.126 * u_time, u_time, u_amplitude);
 
-    float f = fbm(st + r, u_time);
+    float f = fbm(st + r, u_time, u_amplitude);
 
     color = mix(float3(0.101961, 0.619608, 0.666667),
                 float3(0.666667, 0.666667, 0.498039),
@@ -96,7 +96,7 @@ fragment float4 basic_fragment(
                 clamp(length(r), 0.0, 1.0));
 
     // You can now use u_amplitude here if needed, for example:
-    color *= (1.0 + u_amplitude * 0.5);
+    color *= (1.0 + u_amplitude * 0.4);
 
     return float4((f * f * f + 0.6 * f * f + 0.5 * f) * color, 1.0);
 }

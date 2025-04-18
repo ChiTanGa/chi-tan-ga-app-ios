@@ -12,9 +12,7 @@ class AudioInputManager {
     var onAmplitudeUpdate: ((Float) -> Void)?
 
     init() {
-        #if os(iOS)
         configureAudioSession()
-        #endif
 
         let inputNode = engine.inputNode
         let format = inputNode.inputFormat(forBus: 0)
@@ -46,12 +44,26 @@ class AudioInputManager {
         do {
             try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
             try session.setActive(true)
+            print("🎤 Microphone initialised.")
         } catch {
             print("⚠️ Error setting up audio session: \(error)")
         }
     }
+    #elseif os(macOS)
+    private func configureAudioSession() {
+        AVCaptureDevice.requestAccess(for: .audio) { granted in
+            if granted {
+                print("🎤 Microphone access granted.")
+            } else {
+                print("⚠️ Microphone access denied.")
+            }
+        }
+    }
     #endif
     
+    private var smoothedAmplitude: Float = 0
+    private let smoothingFactor: Float = 0.1  // tweak between 0.1 (slow) and 0.3 (responsive)
+
     private func computeAmplitude(buffer: AVAudioPCMBuffer) -> Float {
         guard let channelData = buffer.floatChannelData?[0] else { return 0 }
 
@@ -59,6 +71,12 @@ class AudioInputManager {
         let channelDataPointer = UnsafeBufferPointer(start: channelData, count: frameLength)
 
         let rms = sqrt(channelDataPointer.reduce(0) { $0 + $1 * $1 } / Float(frameLength))
-        return min(max(rms * 20, 0), 1)
+        let rawAmplitude = min(max(rms * 20, 0), 1)
+
+        // 🔥 Apply smoothing
+        smoothedAmplitude = smoothedAmplitude * (1 - smoothingFactor) + rawAmplitude * smoothingFactor
+
+        return smoothedAmplitude
     }
+
 }
