@@ -15,7 +15,7 @@ struct VertexOut {
     float2 uv;
 };
 
-vertex VertexOut basic_vertex(
+vertex VertexOut vertex_dream(
     uint vertexID [[vertex_id]],
     device float2* vertices [[buffer(0)]]
 ) {
@@ -62,7 +62,7 @@ float fbm (float2 st, constant float& time, constant float& amplitude) {
     return v;
 }
 
-fragment float4 basic_fragment(
+fragment float4 fragment_dream(
     VertexOut in [[stage_in]],
     constant float2& u_resolution [[buffer(0)]],
     constant float2& u_mouse [[buffer(1)]],

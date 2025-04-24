@@ -81,16 +81,19 @@ class MetalRenderer: NSObject, MTKViewDelegate {
             [-1, -1], [1, -1], [-1, 1],
             [1, -1], [1, 1], [-1, 1]
         ]
+        var resolution = simd_float2(Float(view.drawableSize.width), Float(view.drawableSize.height))
+        
         encoder.setVertexBuffer(device.makeBuffer(bytes: vertices, length: MemoryLayout<simd_float2>.stride * vertices.count), offset: 0, index: 0)
-
+        encoder.setVertexBuffer(device.makeBuffer(bytes: &time, length: MemoryLayout<Float>.size), offset: 0, index: 2)
+        encoder.setVertexBuffer(device.makeBuffer(bytes: &amplitude, length: MemoryLayout<Float>.size), offset: 0, index: 3)
+        encoder.setVertexBuffer(device.makeBuffer(bytes: &resolution, length: MemoryLayout<simd_float2>.size), offset: 0, index: 4)
+        
+        
+        encoder.setFragmentBytes(&resolution, length: MemoryLayout<simd_float2>.stride, index: 0)
+        var mousePosition = simd_float2(0, 0)
+        encoder.setFragmentBytes(&mousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
-
-        // Assuming u_resolution is at index 0 and u_mouse at index 1 in the shader
-        var resolution = simd_float2(Float(view.drawableSize.width), Float(view.drawableSize.height))
-        encoder.setFragmentBytes(&resolution, length: MemoryLayout<simd_float2>.stride, index: 0)
-        var mousePosition = simd_float2(0, 0) // You might want to update this based on user interaction
-        encoder.setFragmentBytes(&mousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
 
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
         encoder.endEncoding()

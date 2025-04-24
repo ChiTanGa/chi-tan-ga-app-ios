@@ -8,19 +8,22 @@
 enum ShaderType: String, CaseIterable, Identifiable {
     case dream
     case cloud
+    case osciloscope
 
     var id: String { self.rawValue }
     var vertexFunctionName: String {
         switch self {
-        case .dream: return "basic_vertex"
+        case .dream: return "vertex_dream"
         case .cloud: return "vertex_cloud"
+        case .osciloscope: return "vertex_osciloscope"
         }
     }
 
     var fragmentFunctionName: String {
         switch self {
-        case .dream: return "basic_fragment"
+        case .dream: return "fragment_dream"
         case .cloud: return "fragment_cloud"
+        case .osciloscope: return "fragment_osciloscope"
         }
     }
 }

@@ -15,6 +15,7 @@
 		7E112E0C2DB2C0A800E349E2 /* DreamShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */; };
 		7E112E102DB2C7CC00E349E2 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E112E0F2DB2C7C500E349E2 /* MetalRenderer.swift */; };
 		7E5A09332DB2F46000DF6896 /* ShaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A09322DB2F44A00DF6896 /* ShaderType.swift */; };
+		7E5A09352DB303ED00DF6896 /* OsciloscopeShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A09342DB303DE00DF6896 /* OsciloscopeShader.metal */; };
 		7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */; };
 		7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984C2DA7FC1400A46531 /* ContentView.swift */; };
 		7EA8984F2DA7FC1500A46531 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8984E2DA7FC1500A46531 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DreamShader.metal; sourceTree = "<group>"; };
 		7E112E0F2DB2C7C500E349E2 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
 		7E5A09322DB2F44A00DF6896 /* ShaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderType.swift; sourceTree = "<group>"; };
+		7E5A09342DB303DE00DF6896 /* OsciloscopeShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OsciloscopeShader.metal; sourceTree = "<group>"; };
 		7EA898472DA7FC1400A46531 /* BioFieldResearchAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BioFieldResearchAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentApp.swift; sourceTree = "<group>"; };
 		7EA8984C2DA7FC1400A46531 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,8 +96,9 @@
 			isa = PBXGroup;
 			children = (
 				7E5A09322DB2F44A00DF6896 /* ShaderType.swift */,
-				7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */,
 				7E112E092DB27D9E00E349E2 /* CloudShader.metal */,
+				7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */,
+				7E5A09342DB303DE00DF6896 /* OsciloscopeShader.metal */,
 				7E112E032DB2727300E349E2 /* MetalContentView.swift */,
 				7E112E012DB2429500E349E2 /* AudioInputManager.swift */,
 				7E112DFC2DB2405300E349E2 /* MetalContainerView.swift */,
@@ -304,6 +307,7 @@
 				7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */,
 				7E5A09332DB2F46000DF6896 /* ShaderType.swift in Sources */,
 				7E112E0C2DB2C0A800E349E2 /* DreamShader.metal in Sources */,
+				7E5A09352DB303ED00DF6896 /* OsciloscopeShader.metal in Sources */,
 				7E112DF72DAA987300E349E2 /* ElectricFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
