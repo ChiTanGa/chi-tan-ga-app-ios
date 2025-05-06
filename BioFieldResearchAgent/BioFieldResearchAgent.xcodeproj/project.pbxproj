@@ -24,6 +24,7 @@
 		7EA898672DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */; };
 		7EA898692DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */; };
 		7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */; };
+		7EFC74872DC810E20095B6D1 /* AudioCircularBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74862DC810D40095B6D1 /* AudioCircularBuffer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITests.swift; sourceTree = "<group>"; };
 		7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltageHeatmapView.swift; sourceTree = "<group>"; };
+		7EFC74862DC810D40095B6D1 /* AudioCircularBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCircularBuffer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */,
 				7E5A09342DB303DE00DF6896 /* OsciloscopeShader.metal */,
 				7E112E032DB2727300E349E2 /* MetalContentView.swift */,
+				7EFC74862DC810D40095B6D1 /* AudioCircularBuffer.swift */,
 				7E112E012DB2429500E349E2 /* AudioInputManager.swift */,
 				7E112DFC2DB2405300E349E2 /* MetalContainerView.swift */,
 				7E112E0F2DB2C7C500E349E2 /* MetalRenderer.swift */,
@@ -297,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EFC74872DC810E20095B6D1 /* AudioCircularBuffer.swift in Sources */,
 				7E112E102DB2C7CC00E349E2 /* MetalRenderer.swift in Sources */,
 				7E112E0A2DB27DA900E349E2 /* CloudShader.metal in Sources */,
 				7E112E042DB2728500E349E2 /* MetalContentView.swift in Sources */,

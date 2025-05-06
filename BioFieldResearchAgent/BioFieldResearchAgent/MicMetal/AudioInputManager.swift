@@ -6,8 +6,11 @@
 //
 
 import AVFoundation
+import SwiftUICore
 
-class AudioInputManager {
+class AudioInputManager : ObservableObject {
+    @Published var audioCircularBuffer: AudioCircularBuffer = AudioCircularBuffer(circularBufferSize: 1024, downsamplingRate: 5, downsamplingMode: DownsamplingMode.peak)
+    
     private let engine = AVAudioEngine()
     var onAmplitudeUpdate: ((Float) -> Void)?
 
@@ -23,12 +26,17 @@ class AudioInputManager {
             return
         }
 
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
+        inputNode.installTap(onBus: 0, bufferSize: 2048, format: format) { buffer, _ in
+            // Preprocess amplitude updates for simple views
             let level = self.computeAmplitude(buffer: buffer)
             print("Amplitude: \(level)")
             DispatchQueue.main.async {
                 self.onAmplitudeUpdate?(level)
+                
             }
+            
+            // Overhand raw audio data, normalized for osciloscope rendering
+            self.audioCircularBuffer.processIncomingAudioBuffer(buffer)
         }
 
         do {
@@ -77,6 +85,11 @@ class AudioInputManager {
         smoothedAmplitude = smoothedAmplitude * (1 - smoothingFactor) + rawAmplitude * smoothingFactor
 
         return smoothedAmplitude
+    }
+
+    
+    func configureCicularBuffer(circularBufferSize: Int, downsamplingRate: Int, downsamplingMode: DownsamplingMode) {
+        audioCircularBuffer = AudioCircularBuffer(circularBufferSize: circularBufferSize, downsamplingRate: downsamplingRate, downsamplingMode: downsamplingMode)
     }
 
 }

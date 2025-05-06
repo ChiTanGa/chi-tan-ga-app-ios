@@ -27,6 +27,7 @@ public typealias ViewControllerRepresentable = UIViewControllerRepresentable
 struct MetalContainerView: ViewRepresentable {
     @Binding var amplitude: Float
     @Binding var shaderType: ShaderType
+    @Binding var audioBuffer: AudioCircularBuffer
     
     func makeCoordinator() -> MetalRenderer {
         return MetalRenderer(metalView: view)
@@ -44,6 +45,7 @@ struct MetalContainerView: ViewRepresentable {
 
     func updateNSView(_ uiView: MTKView, context: Context) {
         context.coordinator.amplitude = amplitude
+        context.coordinator.audioBuffer = audioBuffer
         context.coordinator.updateShader(to: shaderType)
     }
 
@@ -61,6 +63,7 @@ struct MetalContainerView: ViewRepresentable {
 
     func updateUIView(_ uiView: MTKView, context: Context) {
         context.coordinator.amplitude = amplitude
+        context.coordinator.audioBuffer = audioBuffer
         context.coordinator.updateShader(to: shaderType)
     }
 

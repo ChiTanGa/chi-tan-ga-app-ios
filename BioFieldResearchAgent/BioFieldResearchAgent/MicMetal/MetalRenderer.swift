@@ -7,6 +7,7 @@
 
 import MetalKit
 import simd
+import SwiftUICore
 
 class MetalRenderer: NSObject, MTKViewDelegate {
     private var device: MTLDevice!
@@ -15,6 +16,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     private var time: Float = 0
     var amplitude: Float = 0
     var currentShaderType: ShaderType = .dream
+    var audioBuffer: AudioCircularBuffer = AudioCircularBuffer(circularBufferSize: 1024, downsamplingRate: 1, downsamplingMode: DownsamplingMode.average)
     private var library: MTLLibrary!
     let pipelineDesc = MTLRenderPipelineDescriptor()
 
@@ -95,6 +97,16 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
 
+        let currentBufferData = audioBuffer.getCurrentBuffer()
+        var bufferLength = currentBufferData.count;
+
+        currentBufferData.withUnsafeBytes { (ptr) in
+            encoder.setFragmentBytes(ptr.baseAddress!, length: bufferLength * MemoryLayout<Float>.size, index: 5) // Use the appropriate index in your shader
+        }
+        encoder.setFragmentBytes(&bufferLength, length: MemoryLayout<Int>.size, index: 6) // Pass the length at a different index
+        var signalGain = 1.0
+        encoder.setFragmentBytes(&signalGain, length: MemoryLayout<Float>.size, index: 7) // Pass the length at a different index
+        
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
         encoder.endEncoding()
         cmdBuffer.present(drawable)
