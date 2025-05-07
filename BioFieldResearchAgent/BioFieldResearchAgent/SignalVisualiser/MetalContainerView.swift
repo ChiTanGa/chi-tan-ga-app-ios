@@ -27,7 +27,8 @@ public typealias ViewControllerRepresentable = UIViewControllerRepresentable
 struct MetalContainerView: ViewRepresentable {
     @Binding var amplitude: Float
     @Binding var shaderType: ShaderType
-    @Binding var audioBuffer: AudioCircularBuffer
+    @Binding var signalDownsampleProcessor: SignalDownsampleProcessor
+    @Binding var frequencySpectrumProcessor: FrequencySpectrumProcessor
     
     func makeCoordinator() -> MetalRenderer {
         return MetalRenderer(metalView: view)
@@ -45,7 +46,8 @@ struct MetalContainerView: ViewRepresentable {
 
     func updateNSView(_ uiView: MTKView, context: Context) {
         context.coordinator.amplitude = amplitude
-        context.coordinator.audioBuffer = audioBuffer
+        context.coordinator.signalDownsampleProcessor = signalDownsampleProcessor
+        context.coordinator.freqAnalyserProcessor = frequencySpectrumProcessor
         context.coordinator.updateShader(to: shaderType)
     }
 
@@ -63,7 +65,8 @@ struct MetalContainerView: ViewRepresentable {
 
     func updateUIView(_ uiView: MTKView, context: Context) {
         context.coordinator.amplitude = amplitude
-        context.coordinator.audioBuffer = audioBuffer
+        context.coordinator.signalDownsampleProcessor = signalDownsampleProcessor
+        context.coordinator.freqAnalyserProcessor = frequencySpectrumProcessor
         context.coordinator.updateShader(to: shaderType)
     }
 

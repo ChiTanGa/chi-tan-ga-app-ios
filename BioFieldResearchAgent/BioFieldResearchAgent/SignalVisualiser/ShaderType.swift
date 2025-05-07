@@ -9,6 +9,7 @@ enum ShaderType: String, CaseIterable, Identifiable {
     case dream
     case cloud
     case osciloscope
+    case frequencyAnalyser
 
     var id: String { self.rawValue }
     var vertexFunctionName: String {
@@ -16,6 +17,7 @@ enum ShaderType: String, CaseIterable, Identifiable {
         case .dream: return "vertex_dream"
         case .cloud: return "vertex_cloud"
         case .osciloscope: return "vertex_osciloscope"
+        case .frequencyAnalyser: return "vertex_frequency_analyser"
         }
     }
 
@@ -24,6 +26,7 @@ enum ShaderType: String, CaseIterable, Identifiable {
         case .dream: return "fragment_dream"
         case .cloud: return "fragment_cloud"
         case .osciloscope: return "fragment_osciloscope"
+        case .frequencyAnalyser: return "fragment_frequency_analyser"
         }
     }
 }

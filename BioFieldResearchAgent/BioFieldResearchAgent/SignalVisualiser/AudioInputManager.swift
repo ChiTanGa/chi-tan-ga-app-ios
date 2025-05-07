@@ -9,7 +9,8 @@ import AVFoundation
 import SwiftUICore
 
 class AudioInputManager : ObservableObject {
-    @Published var audioCircularBuffer: AudioCircularBuffer = AudioCircularBuffer(circularBufferSize: 1024, downsamplingRate: 5, downsamplingMode: DownsamplingMode.peak)
+    @Published var signalDownsampleProcessor: SignalDownsampleProcessor = SignalDownsampleProcessor(circularBufferSize: 1024, downsamplingRate: 5, downsamplingMode: DownsamplingMode.peak)
+    @Published var frequencySpectrumProcessor: FrequencySpectrumProcessor = FrequencySpectrumProcessor(bufferSize: 2048)
     
     private let engine = AVAudioEngine()
     var onAmplitudeUpdate: ((Float) -> Void)?
@@ -35,8 +36,16 @@ class AudioInputManager : ObservableObject {
                 
             }
             
-            // Overhand raw audio data, normalized for osciloscope rendering
-            self.audioCircularBuffer.processIncomingAudioBuffer(buffer)
+            guard let floatChannelSignalData = buffer.floatChannelData else { return }
+            let signalDataLenght = Int(buffer.frameLength)
+            let monoChannelSignalData: UnsafeMutablePointer = floatChannelSignalData[0] // mono
+            let monoChannelBuffer: UnsafeBufferPointer = UnsafeBufferPointer(start: monoChannelSignalData, count: signalDataLenght)
+            
+            let clippedMonoChannelBuffer: UnsafeBufferPointer = UnsafeBufferPointer(start: monoChannelSignalData, count: 2048)
+            
+            // Overhand raw audio data, iOS already normalized for osciloscope rendering [0..1]
+            self.signalDownsampleProcessor.processIncomingAudioBuffer(monoChannelBuffer)
+            self.frequencySpectrumProcessor.processIncomingAudioBuffer(clippedMonoChannelBuffer)
         }
 
         do {
@@ -44,6 +53,10 @@ class AudioInputManager : ObservableObject {
         } catch {
             print("❌ Error starting audio engine: \(error.localizedDescription)")
         }
+    }
+    
+    func configureCicularBuffer(circularBufferSize: Int, downsamplingRate: Int, downsamplingMode: DownsamplingMode) {
+        signalDownsampleProcessor = SignalDownsampleProcessor(circularBufferSize: circularBufferSize, downsamplingRate: downsamplingRate, downsamplingMode: downsamplingMode)
     }
 
     #if os(iOS)
@@ -85,11 +98,6 @@ class AudioInputManager : ObservableObject {
         smoothedAmplitude = smoothedAmplitude * (1 - smoothingFactor) + rawAmplitude * smoothingFactor
 
         return smoothedAmplitude
-    }
-
-    
-    func configureCicularBuffer(circularBufferSize: Int, downsamplingRate: Int, downsamplingMode: DownsamplingMode) {
-        audioCircularBuffer = AudioCircularBuffer(circularBufferSize: circularBufferSize, downsamplingRate: downsamplingRate, downsamplingMode: downsamplingMode)
     }
 
 }

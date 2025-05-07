@@ -24,7 +24,12 @@
 		7EA898672DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */; };
 		7EA898692DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */; };
 		7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */; };
-		7EFC74872DC810E20095B6D1 /* AudioCircularBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74862DC810D40095B6D1 /* AudioCircularBuffer.swift */; };
+		7EFC74872DC810E20095B6D1 /* SignalDownsampleProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74862DC810D40095B6D1 /* SignalDownsampleProcessor.swift */; };
+		7EFC74892DCA43A90095B6D1 /* FrequencySpectrumProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74882DCA43A20095B6D1 /* FrequencySpectrumProcessor.swift */; };
+		7EFC748D2DCA83420095B6D1 /* SignalCircularBufferProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC748C2DCA83340095B6D1 /* SignalCircularBufferProcessor.swift */; };
+		7EFC74902DCB3C360095B6D1 /* SignalProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC748F2DCB3C2C0095B6D1 /* SignalProcessor.swift */; };
+		7EFC74922DCC04910095B6D1 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74912DCC04850095B6D1 /* CoreExtensions.swift */; };
+		7EFC74942DCC06230095B6D1 /* FrequenceAnalyserShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74932DCC060D0095B6D1 /* FrequenceAnalyserShader.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +71,12 @@
 		7EA898662DA7FC1600A46531 /* BioFieldResearchAgentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITests.swift; sourceTree = "<group>"; };
 		7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltageHeatmapView.swift; sourceTree = "<group>"; };
-		7EFC74862DC810D40095B6D1 /* AudioCircularBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCircularBuffer.swift; sourceTree = "<group>"; };
+		7EFC74862DC810D40095B6D1 /* SignalDownsampleProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalDownsampleProcessor.swift; sourceTree = "<group>"; };
+		7EFC74882DCA43A20095B6D1 /* FrequencySpectrumProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySpectrumProcessor.swift; sourceTree = "<group>"; };
+		7EFC748C2DCA83340095B6D1 /* SignalCircularBufferProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalCircularBufferProcessor.swift; sourceTree = "<group>"; };
+		7EFC748F2DCB3C2C0095B6D1 /* SignalProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalProcessor.swift; sourceTree = "<group>"; };
+		7EFC74912DCC04850095B6D1 /* CoreExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
+		7EFC74932DCC060D0095B6D1 /* FrequenceAnalyserShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = FrequenceAnalyserShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,20 +104,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7E112DFE2DB2411000E349E2 /* MicMetal */ = {
+		7E112DFE2DB2411000E349E2 /* SignalVisualiser */ = {
 			isa = PBXGroup;
 			children = (
 				7E5A09322DB2F44A00DF6896 /* ShaderType.swift */,
 				7E112E092DB27D9E00E349E2 /* CloudShader.metal */,
 				7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */,
 				7E5A09342DB303DE00DF6896 /* OsciloscopeShader.metal */,
+				7EFC74932DCC060D0095B6D1 /* FrequenceAnalyserShader.metal */,
 				7E112E032DB2727300E349E2 /* MetalContentView.swift */,
-				7EFC74862DC810D40095B6D1 /* AudioCircularBuffer.swift */,
+				7EFC748A2DCA6FA50095B6D1 /* SignalProcessors */,
 				7E112E012DB2429500E349E2 /* AudioInputManager.swift */,
 				7E112DFC2DB2405300E349E2 /* MetalContainerView.swift */,
 				7E112E0F2DB2C7C500E349E2 /* MetalRenderer.swift */,
 			);
-			path = MicMetal;
+			path = SignalVisualiser;
 			sourceTree = "<group>";
 		};
 		7EA8983E2DA7FC1400A46531 = {
@@ -133,7 +144,8 @@
 		7EA898492DA7FC1400A46531 /* BioFieldResearchAgent */ = {
 			isa = PBXGroup;
 			children = (
-				7E112DFE2DB2411000E349E2 /* MicMetal */,
+				7EFC74912DCC04850095B6D1 /* CoreExtensions.swift */,
+				7E112DFE2DB2411000E349E2 /* SignalVisualiser */,
 				7E112DF62DAA986700E349E2 /* ElectricFieldView.swift */,
 				7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */,
 				7EA8984C2DA7FC1400A46531 /* ContentView.swift */,
@@ -168,6 +180,17 @@
 				7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */,
 			);
 			path = BioFieldResearchAgentUITests;
+			sourceTree = "<group>";
+		};
+		7EFC748A2DCA6FA50095B6D1 /* SignalProcessors */ = {
+			isa = PBXGroup;
+			children = (
+				7EFC748F2DCB3C2C0095B6D1 /* SignalProcessor.swift */,
+				7EFC748C2DCA83340095B6D1 /* SignalCircularBufferProcessor.swift */,
+				7EFC74882DCA43A20095B6D1 /* FrequencySpectrumProcessor.swift */,
+				7EFC74862DC810D40095B6D1 /* SignalDownsampleProcessor.swift */,
+			);
+			path = SignalProcessors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,11 +323,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EFC74872DC810E20095B6D1 /* AudioCircularBuffer.swift in Sources */,
+				7EFC74922DCC04910095B6D1 /* CoreExtensions.swift in Sources */,
+				7EFC74892DCA43A90095B6D1 /* FrequencySpectrumProcessor.swift in Sources */,
+				7EFC74872DC810E20095B6D1 /* SignalDownsampleProcessor.swift in Sources */,
 				7E112E102DB2C7CC00E349E2 /* MetalRenderer.swift in Sources */,
 				7E112E0A2DB27DA900E349E2 /* CloudShader.metal in Sources */,
 				7E112E042DB2728500E349E2 /* MetalContentView.swift in Sources */,
+				7EFC74942DCC06230095B6D1 /* FrequenceAnalyserShader.metal in Sources */,
 				7E112DFD2DB2405A00E349E2 /* MetalContainerView.swift in Sources */,
+				7EFC748D2DCA83420095B6D1 /* SignalCircularBufferProcessor.swift in Sources */,
 				7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */,
 				7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */,
 				7E112E022DB2429B00E349E2 /* AudioInputManager.swift in Sources */,
@@ -312,6 +339,7 @@
 				7E5A09332DB2F46000DF6896 /* ShaderType.swift in Sources */,
 				7E112E0C2DB2C0A800E349E2 /* DreamShader.metal in Sources */,
 				7E5A09352DB303ED00DF6896 /* OsciloscopeShader.metal in Sources */,
+				7EFC74902DCB3C360095B6D1 /* SignalProcessor.swift in Sources */,
 				7E112DF72DAA987300E349E2 /* ElectricFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
