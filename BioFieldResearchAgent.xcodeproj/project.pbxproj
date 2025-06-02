@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -79,6 +79,10 @@
 		7EFC74932DCC060D0095B6D1 /* FrequenceAnalyserShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = FrequenceAnalyserShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7EA7DB6C2DEBB51A00DBD586 /* BLEClient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BLEClient; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		7EA898442DA7FC1400A46531 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -144,6 +148,7 @@
 		7EA898492DA7FC1400A46531 /* BioFieldResearchAgent */ = {
 			isa = PBXGroup;
 			children = (
+				7EA7DB6C2DEBB51A00DBD586 /* BLEClient */,
 				7EFC74912DCC04850095B6D1 /* CoreExtensions.swift */,
 				7E112DFE2DB2411000E349E2 /* SignalVisualiser */,
 				7E112DF62DAA986700E349E2 /* ElectricFieldView.swift */,
@@ -207,6 +212,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7EA7DB6C2DEBB51A00DBD586 /* BLEClient */,
 			);
 			name = BioFieldResearchAgent;
 			productName = BioFieldResearchAgent;
@@ -500,6 +508,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BioFieldResearchAgent/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app needs Bluetooth to scan for and connect to your sensor devices.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allowing access to the microphone will visualize audio input.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -540,6 +549,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BioFieldResearchAgent/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app needs Bluetooth to scan for and connect to your sensor devices.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allowing access to the microphone will visualize audio input.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
