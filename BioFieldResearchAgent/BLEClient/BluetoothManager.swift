@@ -62,9 +62,17 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
         print("Connected to \(peripheral.name ?? "Unknown Device")")
         DispatchQueue.main.async {
             self.connectionStatusMessage = "Connected to \(peripheral.name ?? "Unknown Device")"
-            if var connected = self.discoveredDevices.first(where: { $0.id == peripheral.identifier }) {
-                connected.isConnected = true
-                self.connectedDevice = connected
+            if let index = self.discoveredDevices.firstIndex(where: { $0.id == peripheral.identifier }) {
+                // Create a mutable copy of the device at the found index
+                var updatedDevice = self.discoveredDevices[index]
+                updatedDevice.isConnected = true
+
+                // Replace the old device with the updated device in the array
+                self.discoveredDevices[index] = updatedDevice
+
+                // Set the connectedDevice
+                self.connectedDevice = updatedDevice // Or self.discoveredDevices[index]
+
                 // Set the peripheral's delegate to self to receive service/characteristic discovery callbacks
                 peripheral.delegate = self
                 // Discover services for the connected peripheral
@@ -101,51 +109,95 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
     // MARK: Peripheral Delegate
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        guard let services = peripheral.services else { return }
+        guard let services = peripheral.services else {
+            print("Error discovering services: \(error?.localizedDescription ?? "Unknown error")")
+            return
+        }
 
         DispatchQueue.main.async {
-            if var device = self.connectedDevice {
-                device.services.removeAll() // Clear existing services
+            // Find the index of the connected device in the discoveredDevices array
+            if let index = self.discoveredDevices.firstIndex(where: { $0.id == peripheral.identifier }) {
+                // Get a mutable copy of the device from the array
+                var deviceToUpdate = self.discoveredDevices[index]
+
+                deviceToUpdate.services.removeAll() // Clear existing services for this device
+
                 for cbService in services {
                     // Check if it's one of our expected ADS services
                     if ADS_SERVICE_UUIDS.contains(cbService.uuid) {
                         let serviceName = self.nameForServiceUUID(cbService.uuid)
                         let newService = BLEService(cbService: cbService, name: serviceName)
-                        device.services.append(newService)
-                        print("Discovered service: \(serviceName) (\(cbService.uuid.uuidString))")
+                        deviceToUpdate.services.append(newService)
+                        print("Discovered service: \(serviceName) (\(cbService.uuid.uuidString)) for device: \(peripheral.name ?? "Unknown")")
+                        
                         // Discover characteristics for this service
                         peripheral.discoverCharacteristics([CHAR_UUID_ADS1_BITRATE, CHAR_UUID_ADS1_RESOLUTION, CHAR_UUID_ADS2_BITRATE, CHAR_UUID_ADS2_RESOLUTION], for: cbService)
                     }
                 }
-                self.connectedDevice = device // Update the published property
+                
+                // Update the device in the discoveredDevices array
+                self.discoveredDevices[index] = deviceToUpdate
+                
+                // Also update self.connectedDevice if it's still pointing to the same peripheral
+                // This is important because connectedDevice is a Published property and needs to reflect the latest state
+                if self.connectedDevice?.id == peripheral.identifier {
+                    self.connectedDevice = deviceToUpdate
+                }
+            } else {
+                print("Error: Connected device not found in discoveredDevices for peripheral \(peripheral.name ?? "Unknown Device")")
             }
         }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        guard let characteristics = service.characteristics else { return }
+        guard let characteristics = service.characteristics else {
+            print("Error discovering characteristics for service \(service.uuid.uuidString): \(error?.localizedDescription ?? "Unknown error")")
+            return
+        }
 
         DispatchQueue.main.async {
-            if var device = self.connectedDevice,
-               let serviceIndex = device.services.firstIndex(where: { $0.cbService.uuid == service.uuid }) {
+            // 1. Find the index of the relevant device in discoveredDevices
+            if let deviceIndex = self.discoveredDevices.firstIndex(where: { $0.id == peripheral.identifier }) {
+                // Get a mutable copy of the device from the array
+                var deviceToUpdate = self.discoveredDevices[deviceIndex]
 
-                device.services[serviceIndex].characteristics.removeAll() // Clear existing characteristics
-                for cbCharacteristic in characteristics {
-                    let charName = self.nameForCharacteristicUUID(cbCharacteristic.uuid)
-                    let newChar = BLECharacteristic(cbCharacteristic: cbCharacteristic, name: charName)
-                    device.services[serviceIndex].characteristics.append(newChar)
-                    print("  Discovered characteristic for \(device.services[serviceIndex].name): \(charName) (\(cbCharacteristic.uuid.uuidString))")
+                // 2. Find the index of the relevant service within that device
+                if let serviceIndex = deviceToUpdate.services.firstIndex(where: { $0.cbService.uuid == service.uuid }) {
+                    // Get a mutable copy of the service from the device's services array
+                    var serviceToUpdate = deviceToUpdate.services[serviceIndex]
 
-                    // Read bitrate and resolution
-                    if cbCharacteristic.properties.contains(.read) &&
-                       (cbCharacteristic.uuid == CHAR_UUID_ADS1_BITRATE ||
-                        cbCharacteristic.uuid == CHAR_UUID_ADS1_RESOLUTION ||
-                        cbCharacteristic.uuid == CHAR_UUID_ADS2_BITRATE ||
-                        cbCharacteristic.uuid == CHAR_UUID_ADS2_RESOLUTION) {
-                        peripheral.readValue(for: cbCharacteristic)
+                    serviceToUpdate.characteristics.removeAll() // Clear existing characteristics
+                    for cbCharacteristic in characteristics {
+                        let charName = self.nameForCharacteristicUUID(cbCharacteristic.uuid)
+                        let newChar = BLECharacteristic(cbCharacteristic: cbCharacteristic, name: charName)
+                        serviceToUpdate.characteristics.append(newChar)
+                        print("  Discovered characteristic for \(serviceToUpdate.name): \(charName) (\(cbCharacteristic.uuid.uuidString))")
+
+                        // Read bitrate and resolution
+                        if cbCharacteristic.properties.contains(.read) &&
+                            (cbCharacteristic.uuid == CHAR_UUID_ADS1_BITRATE ||
+                             cbCharacteristic.uuid == CHAR_UUID_ADS1_RESOLUTION ||
+                             cbCharacteristic.uuid == CHAR_UUID_ADS2_BITRATE ||
+                             cbCharacteristic.uuid == CHAR_UUID_ADS2_RESOLUTION) {
+                            peripheral.readValue(for: cbCharacteristic)
+                        }
                     }
+
+                    // 3. Update the service within the device's services array
+                    deviceToUpdate.services[serviceIndex] = serviceToUpdate
+
+                    // 4. Update the device back in the discoveredDevices array
+                    self.discoveredDevices[deviceIndex] = deviceToUpdate
+
+                    // 5. Also update self.connectedDevice if it's still pointing to this peripheral
+                    if self.connectedDevice?.id == peripheral.identifier {
+                        self.connectedDevice = deviceToUpdate
+                    }
+                } else {
+                    print("Error: Service \(service.uuid.uuidString) not found in device \(peripheral.name ?? "Unknown Device")'s services.")
                 }
-                self.connectedDevice = device // Update the published property
+            } else {
+                print("Error: Connected device not found in discoveredDevices for peripheral \(peripheral.name ?? "Unknown Device")")
             }
         }
     }
@@ -162,35 +214,58 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
         }
 
         DispatchQueue.main.async {
-            if var device = self.connectedDevice,
-               let serviceIndex = device.services.firstIndex(where: { $0.cbService.uuid == characteristic.service!.uuid }) {
+            // 1. Find the index of the relevant device in discoveredDevices
+            if let deviceIndex = self.discoveredDevices.firstIndex(where: { $0.id == peripheral.identifier }) {
+                // Get a mutable copy of the device from the array
+                var deviceToUpdate = self.discoveredDevices[deviceIndex]
 
-                let serviceName = device.services[serviceIndex].name
+                // 2. Find the index of the relevant service within that device
+                // Note: characteristic.service! is generally safe here because the characteristic
+                // *must* belong to a service to be updated.
+                if let serviceIndex = deviceToUpdate.services.firstIndex(where: { $0.cbService.uuid == characteristic.service!.uuid }) {
+                    // Get a mutable copy of the service from the device's services array
+                    var serviceToUpdate = deviceToUpdate.services[serviceIndex]
 
-                if characteristic.uuid == CHAR_UUID_ADS1_BITRATE || characteristic.uuid == CHAR_UUID_ADS2_BITRATE {
-                    if value.count >= MemoryLayout<Int32>.size { // Ensure enough bytes are available
-                        let bitrateValue = value.withUnsafeBytes { $0.load(as: Int32.self) }
-                        // If your ESP32 sends in big-endian, you might need to use .bigEndian
-                        // let bitrateValue = Int32(bigEndian: value.withUnsafeBytes { $0.load(as: Int32.self) })
-                        device.services[serviceIndex].bitrate = "\(bitrateValue) SPS"
-                        print("  \(serviceName) Bitrate: \(bitrateValue) SPS")
-                    } else {
-                        device.services[serviceIndex].bitrate = "Error (Invalid Data Length)"
-                        print("  \(serviceName) Bitrate: Error (Invalid Data Length)")
+                    let serviceName = serviceToUpdate.name // Use the name from the mutable copy
+
+                    if characteristic.uuid == CHAR_UUID_ADS1_BITRATE || characteristic.uuid == CHAR_UUID_ADS2_BITRATE {
+                        if value.count >= MemoryLayout<Int32>.size { // Ensure enough bytes are available
+                            let bitrateValue = value.withUnsafeBytes { $0.load(as: Int32.self) }
+                            // If your ESP32 sends in big-endian, you might need to use .bigEndian
+                            // let bitrateValue = Int32(bigEndian: value.withUnsafeBytes { $0.load(as: Int32.self) })
+                            serviceToUpdate.bitrate = "\(bitrateValue) SPS"
+                            print("  \(serviceName) Bitrate: \(bitrateValue) SPS")
+                        } else {
+                            serviceToUpdate.bitrate = "Error (Invalid Data Length)"
+                            print("  \(serviceName) Bitrate: Error (Invalid Data Length)")
+                        }
+                    } else if characteristic.uuid == CHAR_UUID_ADS1_RESOLUTION || characteristic.uuid == CHAR_UUID_ADS2_RESOLUTION {
+                        if let resolutionValue = value.first { // Assuming it's a single byte (UInt8)
+                            serviceToUpdate.resolution = "\(resolutionValue) bits"
+                            print("  \(serviceName) Resolution: \(resolutionValue) bits")
+                        } else {
+                            serviceToUpdate.resolution = "Error"
+                        }
                     }
-                } else if characteristic.uuid == CHAR_UUID_ADS1_RESOLUTION || characteristic.uuid == CHAR_UUID_ADS2_RESOLUTION {
-                    if let resolutionValue = value.first { // Assuming it's a single byte (UInt8)
-                        device.services[serviceIndex].resolution = "\(resolutionValue) bits"
-                        print("  \(serviceName) Resolution: \(resolutionValue) bits")
-                    } else {
-                        device.services[serviceIndex].resolution = "Error"
+
+                    // 3. Update the service within the device's services array
+                    deviceToUpdate.services[serviceIndex] = serviceToUpdate
+
+                    // 4. Update the device back in the discoveredDevices array
+                    self.discoveredDevices[deviceIndex] = deviceToUpdate
+
+                    // 5. Also update self.connectedDevice if it's still pointing to this peripheral
+                    if self.connectedDevice?.id == peripheral.identifier {
+                        self.connectedDevice = deviceToUpdate
                     }
+                } else {
+                    print("Error: Service for characteristic \(characteristic.uuid.uuidString) not found in device \(peripheral.name ?? "Unknown Device")'s services.")
                 }
-                self.connectedDevice = device // Update the published property
+            } else {
+                print("Error: Connected device not found in discoveredDevices for peripheral \(peripheral.name ?? "Unknown Device")")
             }
         }
     }
-
     // MARK: Public Methods
 
     func startScanning() {
