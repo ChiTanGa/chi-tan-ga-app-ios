@@ -11,13 +11,19 @@ import CoreBluetooth
 let SERVICE_UUID_ADS1256_1 = CBUUID(string: "A0B1C2D3-E4F5-4678-9012-3456789ACE00")
 let CHAR_UUID_ADS1_BITRATE = CBUUID(string: "A0B1C2D3-E4F5-4678-9012-3456789ACE02")
 let CHAR_UUID_ADS1_RESOLUTION = CBUUID(string: "A0B1C2D3-E4F5-4678-9012-3456789ACE03")
+let CHAR_UUID_ADS1_STREAM_CONTROL  = CBUUID(string:  "A0B1C2D3-E4F5-4678-9012-3456789ACE0C")
+let CHAR_UUID_ADS1_SENSOR_DATA    = CBUUID(string:   "A0B1C2D3-E4F5-4678-9012-3456789ACE0D")
 
 let SERVICE_UUID_ADS1256_2 = CBUUID(string: "A0B1C2D3-E4F5-4678-9012-3456789ACF00")
 let CHAR_UUID_ADS2_BITRATE = CBUUID(string: "A0B1C2D3-E4F5-4678-9012-3456789ACF02")
 let CHAR_UUID_ADS2_RESOLUTION = CBUUID(string: "A0B1C2D3-E4F5-4678-9012-3456789ACF03")
+let CHAR_UUID_ADS2_STREAM_CONTROL   = CBUUID(string:   "A0B1C2D3-E4F5-4678-9012-3456789ACF0C")
+let CHAR_UUID_ADS2_SENSOR_DATA      = CBUUID(string:   "A0B1C2D3-E4F5-4678-9012-3456789ACF0D")
 
 // Array of all ADS1256 service UUIDs to scan for
 let ADS_SERVICE_UUIDS: [CBUUID] = [SERVICE_UUID_ADS1256_1, SERVICE_UUID_ADS1256_2]
+let ADS_SERVICE_CHARACTERISTICS: [CBUUID] = [CHAR_UUID_ADS1_BITRATE, CHAR_UUID_ADS1_RESOLUTION, CHAR_UUID_ADS1_STREAM_CONTROL, CHAR_UUID_ADS1_SENSOR_DATA, CHAR_UUID_ADS2_BITRATE, CHAR_UUID_ADS2_RESOLUTION, CHAR_UUID_ADS2_STREAM_CONTROL, CHAR_UUID_ADS2_SENSOR_DATA]
+let ADS_STREAM_CONTROL_CHARS: [CBUUID] = [CHAR_UUID_ADS1_STREAM_CONTROL, CHAR_UUID_ADS2_STREAM_CONTROL]
 
 class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     @Published var discoveredDevices: [BLEDevice] = []
@@ -131,7 +137,7 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
                         print("Discovered service: \(serviceName) (\(cbService.uuid.uuidString)) for device: \(peripheral.name ?? "Unknown")")
                         
                         // Discover characteristics for this service
-                        peripheral.discoverCharacteristics([CHAR_UUID_ADS1_BITRATE, CHAR_UUID_ADS1_RESOLUTION, CHAR_UUID_ADS2_BITRATE, CHAR_UUID_ADS2_RESOLUTION], for: cbService)
+                        peripheral.discoverCharacteristics(ADS_SERVICE_CHARACTERISTICS, for: cbService)
                     }
                 }
                 
@@ -175,11 +181,13 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
 
                         // Read bitrate and resolution
                         if cbCharacteristic.properties.contains(.read) &&
-                            (cbCharacteristic.uuid == CHAR_UUID_ADS1_BITRATE ||
-                             cbCharacteristic.uuid == CHAR_UUID_ADS1_RESOLUTION ||
-                             cbCharacteristic.uuid == CHAR_UUID_ADS2_BITRATE ||
-                             cbCharacteristic.uuid == CHAR_UUID_ADS2_RESOLUTION) {
+                            (ADS_SERVICE_CHARACTERISTICS.contains(cbCharacteristic.uuid)) {
                             peripheral.readValue(for: cbCharacteristic)
+                        }
+                        
+                        if cbCharacteristic.properties.contains(.notify) {
+                            peripheral.setNotifyValue(true, for: cbCharacteristic)
+                            print("  Enabled notifications for characteristic: \(charName)")
                         }
                     }
 
@@ -246,6 +254,11 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
                         } else {
                             serviceToUpdate.resolution = "Error"
                         }
+                    } else if ADS_STREAM_CONTROL_CHARS.contains(characteristic.uuid) {
+                        if let isStreaming = value.first { // Assuming it's a single byte (UInt8)
+                            serviceToUpdate.isStreaming = isStreaming > 0 ? true : false
+                            print("  \(serviceName) is streaming: \(isStreaming)")
+                        }
                     }
 
                     // 3. Update the service within the device's services array
@@ -276,17 +289,17 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
         discoveredDevices.removeAll()
         peripheralsDict.removeAll()
         isScanning = true
-        connectionStatusMessage = "Scanning for devices..."
+        connectionStatusMessage = "Scanning for BLE devices..."
         // Scan for all devices that advertise the ADS1256 service UUIDs
         centralManager.scanForPeripherals(withServices: ADS_SERVICE_UUIDS, options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
-        print("Scanning started...")
+        print("BLE Scanning started...")
     }
 
     func stopScanning() {
         centralManager.stopScan()
         isScanning = false
         connectionStatusMessage = "Scanning stopped."
-        print("Scanning stopped.")
+        print("BLE Scanning stopped.")
     }
 
     func connect(to device: BLEDevice) {
@@ -298,6 +311,15 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
 
     func disconnect(from device: BLEDevice) {
         centralManager.cancelPeripheralConnection(device.peripheral)
+    }
+    
+    func controlStreaming(device: BLEDevice, service: BLEService, start: Bool) {
+        guard let streamingContronCharacteristic: BLECharacteristic = service.characteristics.first(where: { ADS_STREAM_CONTROL_CHARS.contains( $0.cbCharacteristic.uuid) }) else {
+            print("No streaming control characteristic for service: \(service.cbService.uuid.uuidString)")
+            return
+        }
+        let data = start ? Data([0x0001]) : Data([0x0000])
+        device.peripheral.writeValue(data, for: streamingContronCharacteristic.cbCharacteristic, type: .withResponse)
     }
 
     // MARK: Helper Methods for UUID to Name Mapping
@@ -317,14 +339,14 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
         case CHAR_UUID_ADS1_BITRATE: return "ADS1 Bitrate"
         case CHAR_UUID_ADS1_RESOLUTION: return "ADS1 Resolution"
         //case CHAR_UUID_ADS1_CH1_GAIN: return "ADS1 Ch1 Gain"
-        //case CHAR_UUID_ADS1_STREAM_CONTROL: return "ADS1 Stream Control"
-        //case CHAR_UUID_ADS1_SENSOR_DATA: return "ADS1 Sensor Data"
+        case CHAR_UUID_ADS1_STREAM_CONTROL: return "ADS1 Stream Control"
+        case CHAR_UUID_ADS1_SENSOR_DATA: return "ADS1 Sensor Data"
         //case CHAR_UUID_ADS2_MODE: return "ADS2 Mode"
         case CHAR_UUID_ADS2_BITRATE: return "ADS2 Bitrate"
         case CHAR_UUID_ADS2_RESOLUTION: return "ADS2 Resolution"
         //case CHAR_UUID_ADS2_CH1_GAIN: return "ADS2 Ch1 Gain"
-        //case CHAR_UUID_ADS2_STREAM_CONTROL: return "ADS2 Stream Control"
-        //case CHAR_UUID_ADS2_SENSOR_DATA: return "ADS2 Sensor Data"
+        case CHAR_UUID_ADS2_STREAM_CONTROL: return "ADS2 Stream Control"
+        case CHAR_UUID_ADS2_SENSOR_DATA: return "ADS2 Sensor Data"
         default: return uuid.uuidString
         }
     }

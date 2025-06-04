@@ -26,6 +26,7 @@ struct BLEService: Identifiable {
     var characteristics: [BLECharacteristic] = []
     var bitrate: String = "N/A"
     var resolution: String = "N/A"
+    var isStreaming: Bool = false
 }
 
 /// Represents a BLE characteristic.

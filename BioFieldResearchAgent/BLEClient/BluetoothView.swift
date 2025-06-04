@@ -8,7 +8,7 @@ import SwiftUI
 
 struct BluetoothView: View {
     @StateObject private var bluetoothManager = BluetoothManager()
-    @State private var selectedService: BLEService?
+    //@State private var selectedService: BLEService?
 
     var body: some View {
         NavigationView {
@@ -46,29 +46,44 @@ struct BluetoothView: View {
                                         Text("Discovering services...")
                                     } else {
                                         ForEach(device.services) { service in
-                                            // Display "Subdevice(s): ADS1256_1", "ADS1256_2"
-                                            Button(action: {
-                                                self.selectedService = service
-                                            }) {
-                                                VStack(alignment: .leading) {
-                                                    Text("Subdevice: \(service.name)")
-                                                        .font(.subheadline)
-                                                        .foregroundColor(.primary)
-                                                    if selectedService?.id == service.id {
-                                                        Text("Bitrate: \(service.bitrate)")
-                                                            .font(.footnote)
-                                                            .foregroundColor(.secondary)
-                                                        Text("Resolution: \(service.resolution)")
-                                                            .font(.footnote)
-                                                            .foregroundColor(.secondary)
+                                            VStack(alignment: .leading) {
+                                                Text("Subdevice: \(service.name)")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.primary)
+                                                //if selectedService?.id == service.id {
+                                                    Text("Bitrate: \(service.bitrate)")
+                                                        .font(.footnote)
+                                                        .foregroundColor(.secondary)
+                                                    Text("Resolution: \(service.resolution)")
+                                                        .font(.footnote)
+                                                        .foregroundColor(.secondary)
+                                                    // --- Add the Toggle button here ---
+                                                    Toggle(isOn: Binding(
+                                                        get: { service.isStreaming },
+                                                        set: { newValue in
+                                                            // Find the actual service in discoveredDevices to modify its state
+                                                            if let deviceIndex = bluetoothManager.discoveredDevices.firstIndex(where: { $0.id == device.id }),
+                                                               let serviceIndex = bluetoothManager.discoveredDevices[deviceIndex].services.firstIndex(where: { $0.id == service.id }) {
+                                                                
+                                                                // Update the actual service in the published array
+                                                                bluetoothManager.discoveredDevices[deviceIndex].services[serviceIndex].isStreaming = newValue
+                                                                
+                                                                if newValue {
+                                                                    bluetoothManager.controlStreaming(device: device, service: service, start: true)
+                                                                } else {
+                                                                    bluetoothManager.controlStreaming(device: device, service: service, start: false)
+                                                                }
+                                                            }
+                                                        }
+                                                    )) {
+                                                        Text("Start Streaming")
                                                     }
                                                 }
-                                            }
                                         }
                                     }
                                     Button("Disconnect from \(device.name)") {
                                         bluetoothManager.disconnect(from: device)
-                                        selectedService = nil // Clear selection on disconnect
+                                        //selectedService = nil // Clear selection on disconnect
                                     }
                                     .foregroundColor(.orange)
                                 } else {
