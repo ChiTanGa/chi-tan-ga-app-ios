@@ -11,8 +11,8 @@ import SwiftUI
 struct BioFieldResearchAgentApp: App {
     var body: some Scene {
         WindowGroup {
-            BluetoothView()
-            //MetalContentView()
+            //BluetoothView()
+            MetalContentView()
             //ElectricFieldView()
             //VoltageHeatmapView()
         }

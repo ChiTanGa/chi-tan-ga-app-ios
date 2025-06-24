@@ -246,8 +246,6 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
                     if characteristic.uuid == CHAR_UUID_ADS1_BITRATE || characteristic.uuid == CHAR_UUID_ADS2_BITRATE {
                         if value.count >= MemoryLayout<Int32>.size { // Ensure enough bytes are available
                             let bitrateValue = value.withUnsafeBytes { $0.load(as: Int32.self) }
-                            // If your ESP32 sends in big-endian, you might need to use .bigEndian
-                            // let bitrateValue = Int32(bigEndian: value.withUnsafeBytes { $0.load(as: Int32.self) })
                             serviceToUpdate.bitrate = "\(bitrateValue) SPS"
                             print("  \(serviceName) Bitrate: \(bitrateValue) SPS")
                         } else {
@@ -267,8 +265,14 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
                             print("  \(serviceName) is streaming: \(isStreaming)")
                         }
                     } else if ADS_SENSOR_DATA_CHARS.contains(characteristic.uuid) {
-                        //let sensorData = value.withUnsafeBytes { $0.load(as: value.count) }
-                        
+                        // Read here to new struct for CBOR data
+                        do {
+                            let sensorData = try ADSSensorData(fromCBOR: value)
+                            print("CBOR Decoded: res=\(sensorData.resolution), cmp=\(sensorData.compression), t=\(sensorData.time), bin.count=\(sensorData.binaryData.count) num.count=\(sensorData.decodedReadingNumbers.count)")
+                            print(" Average Reading: \(sensorData.decodedReadingNumbers.reduce(0, +) / UInt32(sensorData.decodedReadingNumbers.count))")
+                        } catch {
+                            print("CBOR decode error: \(error)")
+                        }
                     }
 
                     // 3. Update the service within the device's services array

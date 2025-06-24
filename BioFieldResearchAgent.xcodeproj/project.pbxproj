@@ -14,6 +14,7 @@
 		7E112E0A2DB27DA900E349E2 /* CloudShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7E112E092DB27D9E00E349E2 /* CloudShader.metal */; };
 		7E112E0C2DB2C0A800E349E2 /* DreamShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7E112E0B2DB2C09E00E349E2 /* DreamShader.metal */; };
 		7E112E102DB2C7CC00E349E2 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E112E0F2DB2C7C500E349E2 /* MetalRenderer.swift */; };
+		7E57BE3F2DF8E59000F86846 /* SwiftCBOR in Frameworks */ = {isa = PBXBuildFile; productRef = 7E57BE3E2DF8E59000F86846 /* SwiftCBOR */; };
 		7E5A09332DB2F46000DF6896 /* ShaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A09322DB2F44A00DF6896 /* ShaderType.swift */; };
 		7E5A09352DB303ED00DF6896 /* OsciloscopeShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A09342DB303DE00DF6896 /* OsciloscopeShader.metal */; };
 		7EA8984B2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8984A2DA7FC1400A46531 /* BioFieldResearchAgentApp.swift */; };
@@ -88,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E57BE3F2DF8E59000F86846 /* SwiftCBOR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +291,9 @@
 				Base,
 			);
 			mainGroup = 7EA8983E2DA7FC1400A46531;
+			packageReferences = (
+				7E57BE3D2DF8E59000F86846 /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
+			);
 			productRefGroup = 7EA898482DA7FC1400A46531 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -523,7 +528,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -564,7 +569,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jti.research.BioFieldResearchAgent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -706,6 +711,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7E57BE3D2DF8E59000F86846 /* XCRemoteSwiftPackageReference "SwiftCBOR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/valpackett/SwiftCBOR";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7E57BE3E2DF8E59000F86846 /* SwiftCBOR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E57BE3D2DF8E59000F86846 /* XCRemoteSwiftPackageReference "SwiftCBOR" */;
+			productName = SwiftCBOR;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7EA8983F2DA7FC1400A46531 /* Project object */;
 }
