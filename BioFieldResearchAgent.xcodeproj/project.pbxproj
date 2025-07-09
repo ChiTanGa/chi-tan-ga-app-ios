@@ -82,6 +82,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7EA7DB6C2DEBB51A00DBD586 /* BLEClient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BLEClient; sourceTree = "<group>"; };
+		7EDA547B2E1F10D00037DC66 /* EmotionLabeling */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EmotionLabeling; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +151,7 @@
 		7EA898492DA7FC1400A46531 /* BioFieldResearchAgent */ = {
 			isa = PBXGroup;
 			children = (
+				7EDA547B2E1F10D00037DC66 /* EmotionLabeling */,
 				7EA7DB6C2DEBB51A00DBD586 /* BLEClient */,
 				7EFC74912DCC04850095B6D1 /* CoreExtensions.swift */,
 				7E112DFE2DB2411000E349E2 /* SignalVisualiser */,
@@ -217,6 +219,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				7EA7DB6C2DEBB51A00DBD586 /* BLEClient */,
+				7EDA547B2E1F10D00037DC66 /* EmotionLabeling */,
 			);
 			name = BioFieldResearchAgent;
 			productName = BioFieldResearchAgent;

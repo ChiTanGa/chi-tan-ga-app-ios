@@ -12,6 +12,7 @@ struct BioFieldResearchAgentApp: App {
     var body: some Scene {
         WindowGroup {
             //BluetoothView()
+            EmotionPickerView()
             MetalContentView()
             //ElectricFieldView()
             //VoltageHeatmapView()

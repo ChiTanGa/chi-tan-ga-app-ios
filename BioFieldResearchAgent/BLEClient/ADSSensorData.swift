@@ -1,9 +1,19 @@
 import Foundation
 import SwiftCBOR
 
+enum ADCResolution: Int {
+    case _12bit = 12
+    case _24bit = 24
+}
+
+enum ADCCompression: Int {
+    case _2x12bit_into_3bytes = 2123
+    case _1x24bit_into_3bytes = 1243
+}
+
 struct ADSSensorData {
-    let resolution: Int
-    let compression: Int
+    let resolution: ADCResolution
+    let compression: ADCCompression
     let time: UInt64
     let binaryData: [UInt8]
     let decodedReadingNumbers: [UInt32]
@@ -16,6 +26,22 @@ struct ADSSensorData {
             throw NSError(domain: "ADSSensorData", code: 2, userInfo: [NSLocalizedDescriptionKey: "CBOR is not a map"])
         }
 
+        func resValue(forKey key: String) -> ADCResolution? {
+            guard let value = map[CBOR.utf8String(key)] else { return nil }
+            switch value {
+            case .unsignedInt(let v) where v == 12: return ._12bit
+            case .unsignedInt(let v) where v == 24: return ._24bit
+            default: return nil
+            }
+        }
+        func compressionValue(forKey key: String) -> ADCCompression? {
+            guard let value = map[CBOR.utf8String(key)] else { return nil }
+            switch value {
+            case .unsignedInt(let v) where v == 2123: return ._2x12bit_into_3bytes
+            case .unsignedInt(let v) where v == 1243: return ._1x24bit_into_3bytes
+            default: return nil
+            }
+        }
         func intValue(forKey key: String) -> Int? {
             guard let value = map[CBOR.utf8String(key)] else { return nil }
             switch value {
@@ -36,8 +62,8 @@ struct ADSSensorData {
         }
 
         guard
-            let res = intValue(forKey: "res"),
-            let cmp = intValue(forKey: "cmp"),
+            let res = resValue(forKey: "res"),
+            let cmp = compressionValue(forKey: "cmp"),
             let t = uIntValue(forKey: "t"),
             let bin = byteStringValue(forKey: "bin")
         else {
@@ -47,17 +73,15 @@ struct ADSSensorData {
         self.compression = cmp
         self.time = t
         self.binaryData = bin
-        self.decodedReadingNumbers = Self.unpackData(bin: bin, resolution: res)
+        self.decodedReadingNumbers = Self.unpackData(bin: bin, compression: cmp)
     }
     
-    private static func unpackData(bin: [UInt8], resolution: Int) -> [UInt32] {
-        switch resolution {
-        case 12:
+    private static func unpackData(bin: [UInt8], compression: ADCCompression) -> [UInt32] {
+        switch compression {
+        case ._2x12bit_into_3bytes:
             return unpack12BitValues(bin)
-        case 24:
+        case ._1x24bit_into_3bytes:
             return unpack24BitValues(bin)
-        default:
-            return bin.map { UInt32($0) }
         }
     }
     
