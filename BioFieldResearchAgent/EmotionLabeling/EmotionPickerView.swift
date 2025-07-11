@@ -28,13 +28,19 @@ struct EmotionPickerView: View {
             let size = min(geo.size.width, geo.size.height)
             let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
             let radius = size * 0.4
+            // Create gradient stops at 0°, 120°, 240°, and wrap back to 360° = 0°
+            let angularStops: [Gradient.Stop] = [
+                .init(color: .yellow, location: 0.0),
+                .init(color: .red,    location: 1/3),
+                .init(color: .blue,   location: 2/3),
+                .init(color: .yellow, location: 1.0) // same as start
+            ]
             
             ZStack {
                 // Background gradient ring
                 Circle()
                     .strokeBorder(
-                        AngularGradient(gradient: Gradient(colors: emotions.map { $0.color }),
-                                        center: .center),
+                        AngularGradient(gradient: Gradient(stops: angularStops), center: .center),
                         lineWidth: 20
                     )
                     .frame(width: radius * 2, height: radius * 2)
@@ -59,23 +65,23 @@ struct EmotionPickerView: View {
                 
                 // Line from center to touch
                 if let location = touchLocation {
-                    let colorAtAngle = colorForTouch(location: location, center: center)
-                    
+                    let colorAtTouch = colorForTouch(location: location, center: center, radius: radius)
+
                     Path { path in
                         path.move(to: center)
                         path.addLine(to: location)
                     }
                     .stroke(LinearGradient(
-                        gradient: Gradient(colors: [.white, colorAtAngle]),
+                        gradient: Gradient(colors: [.white, colorAtTouch]),
                         startPoint: UnitPoint(x: center.x / geo.size.width,
                                               y: center.y / geo.size.height),
                         endPoint: UnitPoint(x: location.x / geo.size.width,
                                             y: location.y / geo.size.height)),
-                            lineWidth: 4)
-                    
-                    // Small circle at touch location
+                        lineWidth: 4
+                    )
+
                     Circle()
-                        .fill(colorAtAngle)
+                        .fill(colorAtTouch)
                         .frame(width: 16, height: 16)
                         .position(location)
                 }
@@ -93,13 +99,16 @@ struct EmotionPickerView: View {
         }
     }
     
-    func colorForTouch(location: CGPoint, center: CGPoint) -> Color {
+    func colorForTouch(location: CGPoint, center: CGPoint, radius: CGFloat) -> Color {
         let dx = location.x - center.x
         let dy = location.y - center.y
+        let distance = sqrt(dx*dx + dy*dy)
+        let clampedDistance = min(distance / radius, 1.0)
+        
         let angle = atan2(dy, dx)
         let degrees = (angle * 180 / .pi + 360).truncatingRemainder(dividingBy: 360)
         
-        // Interpolate between emotions by angle
+        // Interpolate between anchor colors based on angle
         let emotionAngles = emotions.map { $0.angle.degrees }
         let emotionColors = emotions.map { $0.color }
 
@@ -111,7 +120,8 @@ struct EmotionPickerView: View {
 
             if angleBetween(degrees, from: a0, to: a1) {
                 let t = normalizedAngle(degrees, from: a0, to: a1)
-                return blendColors(c0, c1, t: t)
+                let baseColor = blendColors(c0, c1, t: t)
+                return blendColors(.white, baseColor, t: clampedDistance)
             }
         }
         return .white
@@ -130,29 +140,39 @@ struct EmotionPickerView: View {
     }
     
     func blendColors(_ c0: Color, _ c1: Color, t: Double) -> Color {
-        guard let cg0 = c0.cgColor,
-              let cg1 = c1.cgColor,
-              let comps0 = cg0.components,
-              let comps1 = cg1.components else {
-            return c0
-        }
+        let (r0, g0, b0, a0) = rgbaComponents(of: c0)
+        let (r1, g1, b1, a1) = rgbaComponents(of: c1)
 
-        // Some CGColors have 2 components (grayscale), others 4 (RGBA)
-        let r0 = comps0.count >= 3 ? comps0[0] : comps0[0]
-        let g0 = comps0.count >= 3 ? comps0[1] : comps0[0]
-        let b0 = comps0.count >= 3 ? comps0[2] : comps0[0]
-        let a0 = comps0.count == 4 ? comps0[3] : 1.0
-
-        let r1 = comps1.count >= 3 ? comps1[0] : comps1[0]
-        let g1 = comps1.count >= 3 ? comps1[1] : comps1[0]
-        let b1 = comps1.count >= 3 ? comps1[2] : comps1[0]
-        let a1 = comps1.count == 4 ? comps1[3] : 1.0
-
-        return Color(red: Double(r0 + (r1 - r0) * CGFloat(t)),
-                     green: Double(g0 + (g1 - g0) * CGFloat(t)),
-                     blue: Double(b0 + (b1 - b0) * CGFloat(t)),
-                     opacity: Double(a0 + (a1 - a0) * CGFloat(t)))
+        return Color(
+            red: r0 + (r1 - r0) * t,
+            green: g0 + (g1 - g0) * t,
+            blue: b0 + (b1 - b0) * t,
+            opacity: a0 + (a1 - a0) * t
+        )
     }
+
+    
+    func rgbaComponents(of color: Color) -> (r: Double, g: Double, b: Double, a: Double) {
+        #if os(macOS)
+        let nsColor = NSColor(color)
+        guard let rgbColor = nsColor.usingColorSpace(.deviceRGB) else {
+            return (1, 1, 1, 1) // fallback white
+        }
+        return (Double(rgbColor.redComponent),
+                Double(rgbColor.greenComponent),
+                Double(rgbColor.blueComponent),
+                Double(rgbColor.alphaComponent))
+        #else
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+
+        UIColor(color).getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return (Double(red), Double(green), Double(blue), Double(alpha))
+        #endif
+    }
+
 
 }
 
