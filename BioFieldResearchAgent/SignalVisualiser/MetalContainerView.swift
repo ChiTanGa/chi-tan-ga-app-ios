@@ -41,6 +41,7 @@ struct MetalContainerView: ViewRepresentable {
         view.preferredFramesPerSecond = 60
         view.framebufferOnly = false
         view.delegate = context.coordinator
+        view.renderer = context.coordinator
         return view
     }
 
@@ -49,9 +50,9 @@ struct MetalContainerView: ViewRepresentable {
         context.coordinator.signalDownsampleProcessor = signalDownsampleProcessor
         context.coordinator.freqAnalyserProcessor = frequencySpectrumProcessor
         context.coordinator.updateShader(to: shaderType)
+        
+        
     }
-
-    private let view = MTKView()
 #elseif os(iOS)
     func makeUIView(context: Context) -> MTKView {
         view.device = MTLCreateSystemDefaultDevice()
@@ -60,6 +61,7 @@ struct MetalContainerView: ViewRepresentable {
         view.preferredFramesPerSecond = 60
         view.framebufferOnly = false
         view.delegate = context.coordinator
+        view.renderer = context.coordinator
         return view
     }
 
@@ -69,7 +71,6 @@ struct MetalContainerView: ViewRepresentable {
         context.coordinator.freqAnalyserProcessor = frequencySpectrumProcessor
         context.coordinator.updateShader(to: shaderType)
     }
-
-    private let view = MTKView()
 #endif
+    private let view = MetalInteractiveView()
 }

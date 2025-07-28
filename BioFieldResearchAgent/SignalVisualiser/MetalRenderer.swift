@@ -9,12 +9,18 @@ import MetalKit
 import simd
 import SwiftUICore
 
+struct EmotionAnchor {
+    var angle: Float       // 0 ... 360
+    var color: SIMD3<Float>  // RGB, each 0.0 ... 1.0
+}
+
 class MetalRenderer: NSObject, MTKViewDelegate {
     private var device: MTLDevice!
     private var commandQueue: MTLCommandQueue!
     private var pipelineState: MTLRenderPipelineState!
     private var time: Float = 0
     var amplitude: Float = 0
+    var mousePosition: SIMD2<Float> = SIMD2<Float>(0, 0)
     var currentShaderType: ShaderType = .dream
     var signalDownsampleProcessor: SignalDownsampleProcessor = SignalDownsampleProcessor(circularBufferSize: 1024, downsamplingRate: 1, downsamplingMode: DownsamplingMode.average)
     var freqAnalyserProcessor: FrequencySpectrumProcessor = FrequencySpectrumProcessor(bufferSize: 2048)
@@ -93,7 +99,6 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         
         
         encoder.setFragmentBytes(&resolution, length: MemoryLayout<simd_float2>.stride, index: 0)
-        var mousePosition = simd_float2(0, 0)
         encoder.setFragmentBytes(&mousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
@@ -115,6 +120,17 @@ class MetalRenderer: NSObject, MTKViewDelegate {
                                        index: 10)
         encoder.setFragmentBytes(&frequencySpectrumBufferLenght, length: MemoryLayout<Int>.size, index: 11)
         
+        let anchors: [EmotionAnchor] = [
+            EmotionAnchor(angle:   0, color: SIMD3(1, 1, 0)),   // Yellow
+            EmotionAnchor(angle: 120, color: SIMD3(1, 0, 0)),   // Red
+            EmotionAnchor(angle: 240, color: SIMD3(0, 0.5, 1)), // Blue
+        ]
+
+        let anchorBuffer = device.makeBuffer(bytes: anchors, length: anchors.count * MemoryLayout<EmotionAnchor>.stride, options: [])
+        var anchorCount: UInt32 = UInt32(anchors.count)
+        
+        encoder.setFragmentBuffer(anchorBuffer, offset: 0, index: 12)
+        encoder.setFragmentBytes(&anchorCount, length: MemoryLayout<UInt32>.stride, index: 13)
         
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
         encoder.endEncoding()
