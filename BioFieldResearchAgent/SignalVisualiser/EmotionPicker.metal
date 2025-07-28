@@ -34,32 +34,22 @@ float degrees(float angle) {
 }
 
 fragment float4 fragment_shader_emotion_picker(VertexOut in [[stage_in]],
-                               constant float2 &resolution [[buffer(0)]],
-                               constant float2 &mousePosition [[buffer(1)]],
+                               constant float2 &mouseUV [[buffer(1)]],
                                constant float &time [[buffer(2)]],
                                constant float &amplitude [[buffer(3)]],
                                constant EmotionAnchor *anchors [[buffer(12)]],
                                constant uint &numAnchors [[buffer(13)]]) {
 
-    // Normalize coordinates
     float2 uv = (in.uv + 1.0) * 0.5; // from [-1,1] to [0,1]
-    float2 fragCoord = uv * resolution;
-    float2 center = resolution * 0.5;
-    
-    float2 mouse = mousePosition;
-    float2 normPos = (fragCoord - center) / resolution;
-    //normPos.y *= resolution.y / resolution.x; // aspect ratio
+    float2 center = float2(0.5, 0.5);
 
-    float2 dirToMouse = normalize(mouse - center);
-    float2 dirToFrag = normalize(fragCoord - center);
+    float2 normPos = uv - center;
     float distFromCenter = length(normPos) * 2.0;
 
-    // Compute angle in degrees
     float angle = atan2(normPos.y, normPos.x);
     if (angle < 0.0) angle += 2.0 * M_PI;
     float deg = degrees(angle);
 
-    // Find the two closest anchors and interpolate
     float3 baseColor = float3(1.0);
     for (uint i = 0; i < numAnchors; ++i) {
         EmotionAnchor a0 = anchors[i];
@@ -79,24 +69,19 @@ fragment float4 fragment_shader_emotion_picker(VertexOut in [[stage_in]],
         }
     }
 
-    // Blend with white based on radial intensity (distance from center)
-    float3 finalColor = mix(float3(1.0), baseColor, clamp(distFromCenter, 0.0, 1.0));
-
-    // Draw radial line from center to mouse
-    float2 mouseDir = normalize(mouse - center);
-    float2 fragDir = fragCoord - center;
-    float dotProd = dot(mouseDir, normalize(fragDir));
+    float2 dirToMouse = normalize(mouseUV - center);
+    float2 dirToFrag = normalize(uv - center);
+    float dotProd = dot(dirToMouse, dirToFrag);
     float angleDiff = acos(clamp(dotProd, -1.0, 1.0));
-    float lineDist = length(fragDir) * sin(angleDiff);
+    float lineDist = length(uv - center) * sin(angleDiff);
 
-    if (dotProd > 0.0 && lineDist < 2.0 && length(fragDir) < length(mouse - center)) {
-        finalColor = mix(float3(1.0), baseColor, 0.85);
+    if (dotProd > 0.0 && lineDist < 0.01 && length(uv - center) < length(mouseUV - center)) {
+        baseColor = mix(float3(1.0), baseColor, 0.85);
     }
 
-    // Dot at mouse
-    if (distance(fragCoord, mouse) < 5.0) {
-        finalColor = baseColor;
+    if (distance(uv, mouseUV) < 0.01) {
+        baseColor = float3(1.0, 0.0, 0.0); // Red dot for mouse position
     }
 
-    return float4(finalColor, 1.0);
+    return float4(baseColor, 1.0);
 }

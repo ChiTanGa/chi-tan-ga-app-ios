@@ -96,10 +96,15 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         encoder.setVertexBuffer(device.makeBuffer(bytes: &time, length: MemoryLayout<Float>.size), offset: 0, index: 2)
         encoder.setVertexBuffer(device.makeBuffer(bytes: &amplitude, length: MemoryLayout<Float>.size), offset: 0, index: 3)
         encoder.setVertexBuffer(device.makeBuffer(bytes: &resolution, length: MemoryLayout<simd_float2>.size), offset: 0, index: 4)
-        
+
+        //Normalized mouse position [0..1]
+        var normalizedMousePosition = SIMD2<Float>(
+            Float(mousePosition.x) / Float(view.drawableSize.width),
+            Float(mousePosition.y) / Float(view.drawableSize.height)
+        )
         
         encoder.setFragmentBytes(&resolution, length: MemoryLayout<simd_float2>.stride, index: 0)
-        encoder.setFragmentBytes(&mousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
+        encoder.setFragmentBytes(&normalizedMousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
 
