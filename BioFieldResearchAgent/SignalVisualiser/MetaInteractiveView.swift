@@ -13,14 +13,33 @@ final class MetalInteractiveView: MTKView {
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
         let trackingArea = NSTrackingArea(rect: self.bounds,
-                                          options: [.mouseMoved, .activeInKeyWindow, .inVisibleRect],
+                                          options: [.mouseMoved, .activeInKeyWindow, .inVisibleRect, .enabledDuringMouseDrag],
                                           owner: self,
                                           userInfo: nil)
         self.addTrackingArea(trackingArea)
         self.window?.acceptsMouseMovedEvents = true
     }
 
+    // Track mouse state
+    override func mouseDown(with event: NSEvent) {
+        renderer?.isMousePressed = true
+        updateMousePosition(event)
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        renderer?.isMousePressed = false
+        updateMousePosition(event)
+    }
+
     override func mouseMoved(with event: NSEvent) {
+        updateMousePosition(event)
+    }
+
+    override func mouseDragged(with event: NSEvent) {
+        updateMousePosition(event)
+    }
+
+    private func updateMousePosition(_ event: NSEvent) {
         let pointInView = convert(event.locationInWindow, from: nil)
 
         // Conver point to pixels: Multiply by screen scale (e.g. 2.0 on Retina)

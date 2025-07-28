@@ -20,6 +20,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     private var pipelineState: MTLRenderPipelineState!
     private var time: Float = 0
     var amplitude: Float = 0
+    var isMousePressed: Bool = false
     var mousePosition: SIMD2<Float> = SIMD2<Float>(0, 0)
     var currentShaderType: ShaderType = .dream
     var signalDownsampleProcessor: SignalDownsampleProcessor = SignalDownsampleProcessor(circularBufferSize: 1024, downsamplingRate: 1, downsamplingMode: DownsamplingMode.average)
@@ -107,6 +108,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         encoder.setFragmentBytes(&normalizedMousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
+        encoder.setFragmentBytes(&isMousePressed, length: MemoryLayout<Bool>.stride, index: 4)
 
         let currentBufferData = signalDownsampleProcessor.getCurrentBuffer()
         var bufferLength = currentBufferData.count;
