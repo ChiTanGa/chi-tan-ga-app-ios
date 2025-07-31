@@ -75,7 +75,7 @@ fragment float4 fragment_shader_emotion_picker(VertexOut in [[stage_in]],
     float angleDiff = acos(clamp(dotProd, -1.0, 1.0));
     float lineDist = length(uv - center) * sin(angleDiff);
 
-    if (dotProd > 0.0 && lineDist < 0.01 && length(uv - center) < length(mouseUV - center)) {
+    if (mousePressed && dotProd > 0.0 && lineDist < 0.01 && length(uv - center) < length(mouseUV - center)) {
         baseColor = mix(float3(1.0), baseColor, 0.85);
     }
 
@@ -83,12 +83,10 @@ fragment float4 fragment_shader_emotion_picker(VertexOut in [[stage_in]],
         baseColor = float3(1.0, 0.0, 0.0); // Red dot for mouse position
     }
     
-    // Extra blur/glow circle if mouse is pressed
-    if (mousePressed) {
-        float dist = distance(uv, mouseUV);
-        float glow = smoothstep(0.1, 0.03, dist); // adjust radius and falloff
-        baseColor = mix(baseColor, float3(1.0, 1.0, 0.5), glow * 0.6); // soft yellow glow
-    }
+    // Extra blur/glow circle if mouse is pressed on mouse position, otherwise in center
+    float dist = mousePressed ? distance(uv, mouseUV) : distance(uv, center);
+    float glow = smoothstep(0.1, 0.03, dist); // adjust radius and falloff
+    baseColor = mix(baseColor, float3(1.0, 1.0, 0.8), glow * 0.6); // soft yellow glow
 
     return float4(baseColor, 1.0);
 }
