@@ -38,10 +38,16 @@ struct MetalContentView: View {
         }.onChange(of: selectedDownsamplingRate) { newMode in
             audioManager.configureCicularBuffer(circularBufferSize: 1024, downsamplingRate: selectedDownsamplingRate, downsamplingMode: selectedDownsamplingMode)
         }
-        Stepper("Downsampling Rate: \(selectedDownsamplingRate)", value: $selectedDownsamplingRate, in: 1...16)
-            .onChange(of: selectedDownsamplingRate) { newRate in
-                audioManager.configureCicularBuffer(circularBufferSize: 1024, downsamplingRate: selectedDownsamplingRate, downsamplingMode: selectedDownsamplingMode)
-            }
+        Slider(value: Binding(get: {
+            log2(Double(selectedDownsamplingRate))
+        }, set: { newValue in
+            selectedDownsamplingRate = Int(pow(2, newValue))
+        }), in: 0...7, step: 1) {
+            Text("Downsampling Rate: \(selectedDownsamplingRate)")
+        }
+        .onChange(of: selectedDownsamplingRate) { newRate in
+            audioManager.configureCicularBuffer(circularBufferSize: 1024, downsamplingRate: selectedDownsamplingRate, downsamplingMode: selectedDownsamplingMode)
+        }
         .pickerStyle(SegmentedPickerStyle())
         Slider(value: $signalGain, in: 1...10, step: 0.1) {
             Text("Signal Gain: \(signalGain, specifier: "%.1f")")
