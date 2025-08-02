@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MetalContentView: View {
     @State private var amplitude: Float = 0.0
+    @State private var signalGain: Float = 1.0
     
     //Settings
     @State private var selectedShader: ShaderType = .osciloscope
@@ -18,7 +19,7 @@ struct MetalContentView: View {
     @StateObject var audioManager = AudioInputManager()
 
     var body: some View {
-        MetalContainerView(amplitude: $amplitude, shaderType: $selectedShader, signalDownsampleProcessor: $audioManager.signalDownsampleProcessor, frequencySpectrumProcessor: $audioManager.frequencySpectrumProcessor)
+        MetalContainerView(amplitude: $amplitude, signalGain: $signalGain, shaderType: $selectedShader, signalDownsampleProcessor: $audioManager.signalDownsampleProcessor, frequencySpectrumProcessor: $audioManager.frequencySpectrumProcessor)
             .ignoresSafeArea()
             .onAppear {
                 audioManager.onAmplitudeUpdate = { level in
@@ -42,6 +43,9 @@ struct MetalContentView: View {
                 audioManager.configureCicularBuffer(circularBufferSize: 1024, downsamplingRate: selectedDownsamplingRate, downsamplingMode: selectedDownsamplingMode)
             }
         .pickerStyle(SegmentedPickerStyle())
+        Slider(value: $signalGain, in: 1...10, step: 0.1) {
+            Text("Signal Gain: \(signalGain, specifier: "%.1f")")
+        }
         .padding()
     }
 }

@@ -23,7 +23,8 @@ vertex VertexOut vertex_frequency_analyser(const device float2* vertexArray [[bu
 // Fragment shader to visualize frequency spectrum as green bars
 fragment float4 fragment_frequency_analyser(VertexOut in [[stage_in]],
                                             constant float* magnitudesBuffer [[buffer(10)]],
-                                            constant uint& magnitudesCount [[buffer(11)]]) {
+                                            constant uint& magnitudesCount [[buffer(11)]],
+                                            constant float &signalGain [[buffer(7)]]) {
     float2 uv = in.uv;
 
     // Determine which frequency bin this pixel falls into (horizontally)
@@ -36,7 +37,7 @@ fragment float4 fragment_frequency_analyser(VertexOut in [[stage_in]],
     float magnitude = magnitudesBuffer[magnitudeIndex];
 
     // Invert Y axis for visual (so higher values go up)
-    float barHeight = magnitude * 10;
+    float barHeight = magnitude * 10 * signalGain;
     
     // Line thickness
     float pointThickness = 0.05;

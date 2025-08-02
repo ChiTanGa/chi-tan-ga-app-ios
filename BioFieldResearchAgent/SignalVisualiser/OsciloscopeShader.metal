@@ -43,7 +43,7 @@ fragment float4 fragment_osciloscope(VertexOut in [[stage_in]],
     signalIndex = clamp(signalIndex, (uint)0, (uint)signalBufferLength - 1);
 
     // Get the sample from the buffer
-    float signalSampleAmplitude = signalBuffer[signalIndex]; // * signalGain;
+    float signalSampleAmplitude = signalBuffer[signalIndex] * signalGain;
 
     //Map signalSampleAmplitude min=0, max-1 to center of the screen negative part =[0.0 .. 0.5]  positive part [0.5 .. 1.1]
     float signalSampleAmplitudeCentered = 0.5 + signalSampleAmplitude * 0.5;

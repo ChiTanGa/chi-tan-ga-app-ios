@@ -20,6 +20,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     private var pipelineState: MTLRenderPipelineState!
     private var time: Float = 0
     var amplitude: Float = 0
+    var signalGain: Float = 1.0
     var isMousePressed: Bool = false
     var mousePosition: SIMD2<Float> = SIMD2<Float>(0, 0)
     var smoothMousePosition: SIMD2<Float> = SIMD2<Float>(0, 0)
@@ -115,6 +116,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
         encoder.setFragmentBytes(&isMousePressed, length: MemoryLayout<Bool>.stride, index: 4)
+        encoder.setFragmentBytes(&signalGain, length: MemoryLayout<Float>.size, index: 7)
         encoder.setFragmentBytes(&normalizedSmoothMousePosition, length: MemoryLayout<simd_float2>.stride, index: 14)
 
         let currentBufferData = signalDownsampleProcessor.getCurrentBuffer()
@@ -124,8 +126,6 @@ class MetalRenderer: NSObject, MTKViewDelegate {
             encoder.setFragmentBytes(ptr.baseAddress!, length: bufferLength * MemoryLayout<Float>.size, index: 5) // Use the appropriate index in your shader
         }
         encoder.setFragmentBytes(&bufferLength, length: MemoryLayout<Int>.size, index: 6)
-        var signalGain = 1.0
-        encoder.setFragmentBytes(&signalGain, length: MemoryLayout<Float>.size, index: 7)
         
         let frequencySpectrumBufferRawPointer = freqAnalyserProcessor.outputFrequencyBinBuffer.baseAddress!
         var frequencySpectrumBufferLenght = freqAnalyserProcessor.outputFrequencyBinBuffer.count
