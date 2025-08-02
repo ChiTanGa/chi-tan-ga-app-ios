@@ -22,6 +22,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     var amplitude: Float = 0
     var isMousePressed: Bool = false
     var mousePosition: SIMD2<Float> = SIMD2<Float>(0, 0)
+    var smoothMousePosition: SIMD2<Float> = SIMD2<Float>(0, 0)
     var currentShaderType: ShaderType = .dream
     var signalDownsampleProcessor: SignalDownsampleProcessor = SignalDownsampleProcessor(circularBufferSize: 1024, downsamplingRate: 1, downsamplingMode: DownsamplingMode.average)
     var freqAnalyserProcessor: FrequencySpectrumProcessor = FrequencySpectrumProcessor(bufferSize: 2048)
@@ -104,11 +105,17 @@ class MetalRenderer: NSObject, MTKViewDelegate {
             Float(mousePosition.y) / Float(view.drawableSize.height)
         )
         
+        var normalizedSmoothMousePosition = SIMD2<Float>(
+            Float(smoothMousePosition.x) / Float(view.drawableSize.width),
+            Float(smoothMousePosition.y) / Float(view.drawableSize.height)
+        )
+
         encoder.setFragmentBytes(&resolution, length: MemoryLayout<simd_float2>.stride, index: 0)
         encoder.setFragmentBytes(&normalizedMousePosition, length: MemoryLayout<simd_float2>.stride, index: 1)
         encoder.setFragmentBytes(&time, length: MemoryLayout<Float>.stride, index: 2) // index 2 for time
         encoder.setFragmentBytes(&amplitude, length: MemoryLayout<Float>.stride, index: 3) // index 3 for amplitude
         encoder.setFragmentBytes(&isMousePressed, length: MemoryLayout<Bool>.stride, index: 4)
+        encoder.setFragmentBytes(&normalizedSmoothMousePosition, length: MemoryLayout<simd_float2>.stride, index: 14)
 
         let currentBufferData = signalDownsampleProcessor.getCurrentBuffer()
         var bufferLength = currentBufferData.count;

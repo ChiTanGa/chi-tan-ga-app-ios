@@ -1,0 +1,1 @@
+This project is and realtime data collector for research purposes. The data can be sourced from available iOS sources like phone microphone, camera or source of random data, or external sensor connected via BLE (ESP32) used usually to gather bio-signal data.

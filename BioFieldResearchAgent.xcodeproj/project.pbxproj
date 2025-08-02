@@ -26,7 +26,7 @@
 		7EA898692DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */; };
 		7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */; };
 		7EDA548D2E22C3F90037DC66 /* EmotionPicker.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA548C2E22C3F20037DC66 /* EmotionPicker.metal */; };
-		7EDA548F2E22D2E70037DC66 /* MetaInteractiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA548E2E22D2D80037DC66 /* MetaInteractiveView.swift */; };
+		7EDA548F2E22D2E70037DC66 /* MetalInteractiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA548E2E22D2D80037DC66 /* MetalInteractiveView.swift */; };
 		7EFC74872DC810E20095B6D1 /* SignalDownsampleProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74862DC810D40095B6D1 /* SignalDownsampleProcessor.swift */; };
 		7EFC74892DCA43A90095B6D1 /* FrequencySpectrumProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC74882DCA43A20095B6D1 /* FrequencySpectrumProcessor.swift */; };
 		7EFC748D2DCA83420095B6D1 /* SignalCircularBufferProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC748C2DCA83340095B6D1 /* SignalCircularBufferProcessor.swift */; };
@@ -75,7 +75,8 @@
 		7EA898682DA7FC1600A46531 /* BioFieldResearchAgentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioFieldResearchAgentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		7EA898752DA800B700A46531 /* VoltageHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltageHeatmapView.swift; sourceTree = "<group>"; };
 		7EDA548C2E22C3F20037DC66 /* EmotionPicker.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = EmotionPicker.metal; sourceTree = "<group>"; };
-		7EDA548E2E22D2D80037DC66 /* MetaInteractiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaInteractiveView.swift; sourceTree = "<group>"; };
+		7EDA548E2E22D2D80037DC66 /* MetalInteractiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalInteractiveView.swift; sourceTree = "<group>"; };
+		7EED0DAF2E3E86B8005ABD82 /* GEMINI.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GEMINI.md; sourceTree = "<group>"; };
 		7EFC74862DC810D40095B6D1 /* SignalDownsampleProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalDownsampleProcessor.swift; sourceTree = "<group>"; };
 		7EFC74882DCA43A20095B6D1 /* FrequencySpectrumProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySpectrumProcessor.swift; sourceTree = "<group>"; };
 		7EFC748C2DCA83340095B6D1 /* SignalCircularBufferProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalCircularBufferProcessor.swift; sourceTree = "<group>"; };
@@ -118,7 +119,7 @@
 		7E112DFE2DB2411000E349E2 /* SignalVisualiser */ = {
 			isa = PBXGroup;
 			children = (
-				7EDA548E2E22D2D80037DC66 /* MetaInteractiveView.swift */,
+				7EDA548E2E22D2D80037DC66 /* MetalInteractiveView.swift */,
 				7EDA548C2E22C3F20037DC66 /* EmotionPicker.metal */,
 				7E5A09322DB2F44A00DF6896 /* ShaderType.swift */,
 				7E112E092DB27D9E00E349E2 /* CloudShader.metal */,
@@ -141,6 +142,7 @@
 				7EA8985B2DA7FC1600A46531 /* BioFieldResearchAgentTests */,
 				7EA898652DA7FC1600A46531 /* BioFieldResearchAgentUITests */,
 				7EA898482DA7FC1400A46531 /* Products */,
+				7EED0DAF2E3E86B8005ABD82 /* GEMINI.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -355,7 +357,7 @@
 				7E112DFD2DB2405A00E349E2 /* MetalContainerView.swift in Sources */,
 				7EFC748D2DCA83420095B6D1 /* SignalCircularBufferProcessor.swift in Sources */,
 				7EA8984D2DA7FC1400A46531 /* ContentView.swift in Sources */,
-				7EDA548F2E22D2E70037DC66 /* MetaInteractiveView.swift in Sources */,
+				7EDA548F2E22D2E70037DC66 /* MetalInteractiveView.swift in Sources */,
 				7EDA548D2E22C3F90037DC66 /* EmotionPicker.metal in Sources */,
 				7EA898762DA800B700A46531 /* VoltageHeatmapView.swift in Sources */,
 				7E112E022DB2429B00E349E2 /* AudioInputManager.swift in Sources */,

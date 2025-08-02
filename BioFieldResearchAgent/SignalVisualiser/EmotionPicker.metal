@@ -39,7 +39,8 @@ fragment float4 fragment_shader_emotion_picker(VertexOut in [[stage_in]],
                                constant float &amplitude [[buffer(3)]],
                                constant bool &mousePressed [[buffer(4)]],
                                constant EmotionAnchor *anchors [[buffer(12)]],
-                               constant uint &numAnchors [[buffer(13)]]) {
+                               constant uint &numAnchors [[buffer(13)]],
+                               constant float2 &smoothMouseUV [[buffer(14)]]) {
 
     float2 uv = (in.uv + 1.0) * 0.5; // from [-1,1] to [0,1]
     float2 center = float2(0.5, 0.5);
@@ -69,24 +70,30 @@ fragment float4 fragment_shader_emotion_picker(VertexOut in [[stage_in]],
         }
     }
 
-    float2 dirToMouse = normalize(mouseUV - center);
+    float2 dirToMouse = normalize(smoothMouseUV - center);
     float2 dirToFrag = normalize(uv - center);
     float dotProd = dot(dirToMouse, dirToFrag);
     float angleDiff = acos(clamp(dotProd, -1.0, 1.0));
     float lineDist = length(uv - center) * sin(angleDiff);
 
-    if (mousePressed && dotProd > 0.0 && lineDist < 0.01 && length(uv - center) < length(mouseUV - center)) {
+    if (mousePressed && dotProd > 0.0 && lineDist < 0.01 && length(uv - center) < length(smoothMouseUV - center)) {
         baseColor = mix(float3(1.0), baseColor, 0.85);
     }
 
-    if (distance(uv, mouseUV) < 0.01) {
+    if (distance(uv, smoothMouseUV) < 0.01) {
         baseColor = float3(1.0, 0.0, 0.0); // Red dot for mouse position
     }
     
     // Extra blur/glow circle if mouse is pressed on mouse position, otherwise in center
-    float dist = mousePressed ? distance(uv, mouseUV) : distance(uv, center);
+    float dist = mousePressed ? distance(uv, smoothMouseUV) : distance(uv, center);
     float glow = smoothstep(0.1, 0.03, dist); // adjust radius and falloff
     baseColor = mix(baseColor, float3(1.0, 1.0, 0.8), glow * 0.6); // soft yellow glow
+
+    // Oval mask
+    float oval_dist = distance(uv, center);
+    if (oval_dist > 0.5) {
+        baseColor = float3(0.0, 0.0, 0.0);
+    }
 
     return float4(baseColor, 1.0);
 }
